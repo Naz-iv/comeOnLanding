@@ -555,7 +555,7 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"], p.has-text-align-right
 .lightbox-container {
     display: flex;
     flex-direction: column;
-    position: relative
+    position: fixed;
 }
 
 .lightbox-container img {
@@ -1081,6 +1081,7 @@ html :where(.is-position-sticky) {
 
 .block-cover__image-background.has-parallax {
     background-size: cover;
+    z-index: 1;
 }
 
 .skip-link.screen-reader-text {
@@ -2398,9 +2399,10 @@ h6 {
 }
 
 .site-header {
-    position: sticky;
     top: 0;
     background: white;
+    position: sticky;
+    z-index: 100;
 }
 
 .modal {
