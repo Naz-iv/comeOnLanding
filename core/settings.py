@@ -17,7 +17,9 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "DEFAULT_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "befit-pgfb.onrender.com"
+]
 
 
 # Application definition
