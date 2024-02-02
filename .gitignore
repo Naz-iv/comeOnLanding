@@ -2,6 +2,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.env
+.venv
+env/
+venv/
+.idea/
 
 # Distribution / packaging
 .Python
@@ -44,8 +49,3 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 __pypackages__/
-.env
-.venv
-env/
-venv/
-.idea/
