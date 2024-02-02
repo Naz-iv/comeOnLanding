@@ -18,7 +18,8 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "DEFAULT_SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False")
 
 ALLOWED_HOSTS = [
-    "befit-pgfb.onrender.com"
+    "befit-pgfb.onrender.com",
+    "localhost"
 ]
 
 
