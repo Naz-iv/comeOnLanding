@@ -1115,13 +1115,13 @@ html :where(.is-position-sticky) {
 
 @media screen {
     html {
-        margin-top: 8px !important;
+        margin-top: 0 !important;
     }
 }
 
 @media screen and ( max-width: 782px ) {
     html {
-        margin-top: 8px !important;
+        margin-top: 0 !important;
     }
 }
 
@@ -1243,9 +1243,9 @@ body {
     --preset--spacing--30: 0.25rem;
     --preset--spacing--40: 0.5rem;
     --preset--spacing--50: 0.7rem;
-    --preset--spacing--60: clamp(0.75rem, 1.5211268vw, 1.5rem);
+    --preset--spacing--60: clamp(1.55rem, 3.2521126vw, 2.35rem);
     --preset--spacing--70: clamp(1.5rem, 4.3943662vw, 2.25rem);
-    --preset--spacing--80: clamp(2.25rem, 5.3239437vw, 3.75rem);
+    --preset--spacing--80: clamp(3.75rem, 6.3239437vw, 3.75rem);
     --preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
     --preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
     --preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);
@@ -2403,10 +2403,29 @@ h6 {
     background: white;
 }
 
-.faq-container {
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
 
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.faq-container {
 }
 
 .faq-answer {
-
 }

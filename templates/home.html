@@ -12,14 +12,15 @@
   <link href="{% static 'css/cover.css' %}" rel="stylesheet">
   <link href="{% static 'css/_static.css' %}" rel="stylesheet">
   <link href="{% static 'css/global.css' %}" rel="stylesheet">
+  <link href="{% static 'css/form.css' %}" rel="stylesheet">
 
   <script type="text/javascript"
           src="{% static 'js/_static.js' %}"></script>
 
   <!-- End Jetpack Open Graph Tags -->
-  <link rel="icon" href="{% static 'icons/503859.png' %}" sizes="32x32">
-  <link rel="icon" href="{% static 'icons/503859.png' %}" sizes="192x192">
-  <link rel="apple-touch-icon" href="{% static 'icons/503859.png' %}">
+  <link rel="icon" href="{% static 'icons/befit.png' %}" sizes="32x32">
+  <link rel="icon" href="{% static 'icons/befit.png' %}" sizes="192x192">
+  <link rel="apple-touch-icon" href="{% static 'icons/befit.png' %}">
   <script src="{% static 'js/actionbar.js' %}" defer=""></script>
   <link rel="stylesheet" id="gravatar-card-css" href="{% static 'css/hovercard.css' %}">
   <link href="{% static 'css/actionbar.css' %}" rel="stylesheet">
@@ -29,11 +30,14 @@
 <div id="home" class="site-blocks">
   <header class="block-template-part site-header">
     <div class="block-group alignfull has-global-padding is-layout-constrained block-group-is-layout-constrained"
-         style="padding-top:var(--preset--spacing--50);padding-right:var(--preset--spacing--50);padding-bottom:var(--preset--spacing--50);padding-left:var(--preset--spacing--50)">
+         style="padding-top:var(--preset--spacing--50);padding-right:var(--preset--spacing--50);padding-bottom:var(--preset--spacing--50);padding-left:var(--preset--spacing--50);">
       <div
           class="block-group alignwide is-content-justification-space-between is-nowrap is-layout-flex container-core-group-is-layout-2 block-group-is-layout-flex">
-        <h1 class="block-site-title"><a href="#home" target="_self" rel="home"
-                                        aria-current="page">БіФіт</a></h1>
+        <div class="block-image">
+          <a href="#home" target="_self" >
+            <img src="{% static 'icons/befit.svg' %}" alt="БіФіт" width="100%">
+          </a>
+        </div>
 
         <nav
             class="is-responsive items-justified-right block-navigation is-content-justification-right is-layout-flex container-core-navigation-is-layout-1 block-navigation-is-layout-flex"
@@ -307,7 +311,8 @@
 
 
     <div id="plans"
-         class="block-group has-global-padding is-layout-constrained block-group-is-layout-constrained">
+         class="block-group has-global-padding is-layout-constrained block-group-is-layout-constrained"
+         style="margin-top:0px;margin-bottom:0px;padding-top:var(--preset--spacing--80);padding-right:var(--preset--spacing--50);padding-bottom:var(--preset--spacing--80);padding-left:var(--preset--spacing--50)">
       <h2 class="block-heading has-text-align-center">Тарифні плани</h2>
 
 
@@ -343,9 +348,11 @@
           <div
               class="block-buttons is-content-justification-left is-layout-flex container-core-buttons-is-layout-2 block-buttons-is-layout-flex">
             <div class="block-button has-custom-width block-button__width-100 is-style-fill">
-              <a class="block-button__link has-background-color has-secondary-background-color has-text-color has-background element-button">
+              <button
+                  class="block-button__link has-background-color has-secondary-background-color has-text-color has-background element-button"
+                  onclick="openForm()">
                 Купити зараз
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -380,11 +387,49 @@
 
           <div
               class="block-buttons is-content-justification-left is-layout-flex container-core-buttons-is-layout-3 block-buttons-is-layout-flex">
-            <div class="block-button has-custom-width block-button__width-100 is-style-fill"><a
-                class="block-button__link has-background-color has-secondary-background-color has-text-color has-background element-button">Купити
-              зараз</a></div>
+            <div class="block-button has-custom-width block-button__width-100 is-style-fill">
+              <button
+                  class="block-button__link has-background-color has-secondary-background-color has-text-color has-background element-button"
+                  onclick="openForm()">
+                Купити зараз
+              </button>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="row row-space">
+            <div class="input-group">
+              <label class="label">Імя</label>
+              <input class="input--style-4" type="text" name="name">
+            </div>
+          </div>
+          <div class="row row-space">
+            <div class="input-group">
+              <label class="label">Електронна пошта</label>
+              <input class="input--style-4" type="email" name="email">
+            </div>
+          </div>
+          <div class="row row-space">
+            <div class="input-group">
+              <label class="label">Номер телефону</label>
+              <input class="input--style-4" type="text" name="phone">
+            </div>
+          </div>
+          <div class="row row-space">
+            <div class="col-2">
+              <button class="btn btn--radius-2 btn--blue" type="submit">ОПЛАТИТИ</button>
+            </div>
+            <div class="col-2">
+              <button class="btn btn--radius-2 btn--orange" onclick="closeForm()">СКАСУВАТИ</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -970,6 +1015,17 @@
         } else {
             answerContainer.style.display = "none";
         }
+    }
+</script>
+<script>
+    // Function to open the form
+    function openForm() {
+        document.getElementById("myModal").style.display = "flex";
+    }
+
+    // Function to close the form
+    function closeForm() {
+        document.getElementById("myModal").style.display = "none";
     }
 </script>
 </body>
