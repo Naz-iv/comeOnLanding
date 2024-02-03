@@ -1258,6 +1258,7 @@ body {
     margin: 0;
     --style--global--content-size: 620px;
     --style--global--wide-size: 1200px;
+
 }
 
 .site-blocks {
@@ -2399,10 +2400,13 @@ h6 {
 }
 
 .site-header {
+
     top: 0;
     background: white;
+    opacity: 75%;
     position: sticky;
     z-index: 100;
+    height: var(--preset--spacing--70);
 }
 
 .modal {
