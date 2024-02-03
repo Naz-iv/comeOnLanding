@@ -1245,7 +1245,7 @@ body {
     --preset--spacing--40: 0.5rem;
     --preset--spacing--50: 0.7rem;
     --preset--spacing--60: clamp(1.55rem, 3.2521126vw, 2.35rem);
-    --preset--spacing--70: clamp(1.5rem, 4.3943662vw, 2.25rem);
+    --preset--spacing--70: clamp(2.25rem, 4.8943662vw, 3.25rem);
     --preset--spacing--80: clamp(3.75rem, 6.3239437vw, 3.75rem);
     --preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
     --preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
