@@ -413,6 +413,7 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"], p.has-text-align-right
     flex-grow: 1;
     min-width: 0;
     overflow-wrap: break-word;
+    overflow-x: hidden;
     word-break: break-word
 }
 
@@ -1123,6 +1124,7 @@ html :where(.is-position-sticky) {
 @media screen and ( max-width: 782px ) {
     html {
         margin-top: 0 !important;
+        overflow-x: hidden;
     }
 }
 
@@ -1436,6 +1438,7 @@ body {
     font-style: normal;
     font-weight: 400;
     line-height: 1.6;
+    overflow-x: clip;
     --style--root--padding-top: 0px;
     --style--root--padding-right: var(--preset--spacing--50);
     --style--root--padding-bottom: 0px;

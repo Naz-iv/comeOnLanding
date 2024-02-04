@@ -20,10 +20,41 @@ img.latex {
     left: -1000em
 }
 
-.comment object,.comment embed,.embed-vimeo iframe,.embed-youtube iframe {
+.comment object, .comment embed, .embed-vimeo iframe, .embed-youtube iframe {
     max-width: 100%
 }
 
 .simple-homepage {
     display: none
+}
+
+.hide-left {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-100%);
+    transition: all 1s;
+}
+
+.hide-right {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(100%);
+    transition: all 1s;
+}
+
+@media (prefers-reduced-motion) {
+    .hide {
+        transition: none;
+    }
+
+    .show {
+        transition: none;
+    }
+}
+
+.show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0%);
+
 }
