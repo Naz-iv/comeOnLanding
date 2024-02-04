@@ -1443,6 +1443,10 @@ body {
     --style--root--padding-right: var(--preset--spacing--50);
     --style--root--padding-bottom: 0px;
     --style--root--padding-left: var(--preset--spacing--50);
+
+    background-image: url('static/background/IMG_5254.JPEG');
+    background-size: cover;
+    background-repeat: repeat-y;
 }
 
 a:where(:not(.element-button)) {
