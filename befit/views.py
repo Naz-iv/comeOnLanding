@@ -5,7 +5,7 @@ from uuid import uuid4
 from django.views import View
 from django.views.generic import TemplateView
 from django.http import HttpResponse
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpRequest, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
