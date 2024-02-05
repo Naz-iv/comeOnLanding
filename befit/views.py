@@ -96,8 +96,8 @@ class PayCallbackView(View):
             if response["status"] == "success":
                 order.payment_status = "paid"
                 order.save()
-            print("callback data", response)
-            return redirect(reverse("befit:home"), paid="True")
+                print("callback data", response)
+                return redirect(reverse("befit:home"), paid="True")
         else:
             print("callback invalid")
             response = liqpay.decode_data_from_str(data)
