@@ -1,0 +1,42 @@
+{% load static %}
+
+<div id="myModal" class="modal" {% if invalid %}style="display: flex"{% endif %}>
+  <div class="modal-content">
+
+    <form method="POST" action="{% url 'befit:pay_view' %}" novalidate>
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="label" style="color: red">
+          {% for error in form.non_field_errors %}
+            {{ error }}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% for field in form %}
+        <div class="form-floating">
+          <label class="label">{{ field.label }}</label>
+          {{ field }}
+
+          {% if field.errors %}
+            <div style="color: red">
+              {% for error in field.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+        </div>
+
+        <br>
+
+      {% endfor %}
+
+      <div class="has-text-align-center">
+        <button class="btn btn--radius-2 btn--blue" type="submit">ОПЛАТИТИ</button>
+        <button class="btn btn--radius-2 btn--orange" type="reset" onclick="closeForm()">СКАСУВАТИ</button>
+      </div>
+    </form>
+  </div>
+</div>

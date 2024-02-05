@@ -1,0 +1,27 @@
+{% load static %}
+
+<div id="confirmation" class="modal" {% if paid == "True" %}style="display: flex"{% endif %}>
+  <div class="modal-content">
+
+    <h4 class="has-text-align-center">Оплата пройшла успішно!</h4>
+    <h4 class="has-text-align-center">Посилання з доступом до курсу<br>надіслано вам на пошту!</h4>
+
+    <div class="has-text-align-center">
+      <button class="btn btn--radius-2 btn--green" type="button" onclick="closeConfirmation()">ЗАКРИТИ</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="failure" class="modal" {% if failure == "True" %}style="display: flex"{% endif %}>
+  <div class="modal-content">
+
+    <h4 class="has-text-align-center">Помилка оплати!</h4>
+    <h4 class="has-text-align-center">Під час оплати виникла помилка<br>Спробуйте ще раз, будь ласка!</h4>
+
+    <div class="has-text-align-center">
+      <button class="btn btn--radius-2 btn--orange" type="button" onclick="closeConfirmation()">ЗАКРИТИ</button>
+    </div>
+
+  </div>
+</div>

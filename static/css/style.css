@@ -39,7 +39,8 @@
 }
 
 .block-group {
-    box-sizing: border-box
+    box-sizing: border-box;
+    z-index: 1;
 }
 
 h1.has-background, h2.has-background, h3.has-background, h4.has-background, h5.has-background, h6.has-background {
@@ -1443,10 +1444,6 @@ body {
     --style--root--padding-right: var(--preset--spacing--50);
     --style--root--padding-bottom: 0px;
     --style--root--padding-left: var(--preset--spacing--50);
-
-    background-image: url('static/background/IMG_5254.JPEG');
-    background-size: cover;
-    background-repeat: repeat-y;
 }
 
 a:where(:not(.element-button)) {
@@ -2427,6 +2424,7 @@ h6 {
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(5px);
+    z-index: 10000;
 }
 
 .modal-content {

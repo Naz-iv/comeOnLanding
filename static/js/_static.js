@@ -645,9 +645,6 @@ window.wpNotesCommon=window.wpNotesCommon||{noteType2Noticon:{like:"like",follow
 		window.wpcom = {};
 	}
 
-	if ( ! window.wpNotesArgs ) {
-		console.warn( 'Missing data from PHP (wpNotesArgs).' );
-	}
 	const wpNotesArgs = window.wpNotesArgs || {};
 	// The main cache buster _should_ always be defined.
 	const cacheBuster = wpNotesArgs.cacheBuster || 'none';
@@ -1204,14 +1201,6 @@ window.wpNotesCommon=window.wpNotesCommon||{noteType2Noticon:{like:"like",follow
 				return;
 			}
 
-			// Check whether 3rd Party Cookies are blocked
-			if ( 'WPCOM:3PC:allowed' === event.data && ! iframeLoaded ) {
-				console.debug( '3PC allowed' );
-				initIFrame();
-			} else if ( 'WPCOM:3PC:blocked' === event.data ) {
-				console.debug( '3PC blocked' );
-				initRedirect();
-			}
 		}, false);
 	}
 

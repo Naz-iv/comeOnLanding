@@ -82,39 +82,15 @@
       {% include "main/plans.html" %}
     {% endblock %}
 
-    <div id="myModal" class="modal">
-      <div class="modal-content">
-        <form method="POST">
-          {% csrf_token %}
-          <div class="row row-space">
-            <div class="input-group">
-              <label class="label">Імя</label>
-              <input class="input--style-4" type="text" name="name">
-            </div>
-          </div>
-          <div class="row row-space">
-            <div class="input-group">
-              <label class="label">Електронна пошта</label>
-              <input class="input--style-4" type="email" name="email">
-            </div>
-          </div>
-          <div class="row row-space">
-            <div class="input-group">
-              <label class="label">Номер телефону</label>
-              <input class="input--style-4" type="text" name="phone">
-            </div>
-          </div>
-          <div class="row row-space">
-            <div class="col-2">
-              <button class="btn btn--radius-2 btn--blue" type="submit">ОПЛАТИТИ</button>
-            </div>
-            <div class="col-2">
-              <button class="btn btn--radius-2 btn--orange" onclick="closeForm()">СКАСУВАТИ</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+    {% block form %}
+      {% include "main/form.html" %}
+    {% endblock %}
+
+    {% if paid or failure %}
+      {% block payment_confirmation %}
+        {% include "main/payment_confirmation.html" %}
+      {% endblock %}
+    {% endif %}
 
     {% block results %}
       {% include "main/results.html" %}
@@ -220,13 +196,21 @@
     }
 </script>
 <script>
-    function openForm() {
+    function openForm(tier) {
         document.getElementById("myModal").style.display = "flex";
+        document.getElementById("id_tier").value = tier;
     }
 
     function closeForm() {
         document.getElementById("myModal").style.display = "none";
     }
+
+    function closeConfirmation() {
+        document.getElementById("confirmation").style.display = "none";
+        document.getElementById("failure").style.display = "none";
+
+    }
+
 </script>
 </body>
 </html>

@@ -123,3 +123,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LIQPAY_PUBLIC_KEY = os.getenv("LIQPAY_PUBLIC_KEY", "LIQPAY_PUBLIC_KEY")
+LIQPAY_PRIVATE_KEY = os.getenv("LIQPAY_PRIVATE_KEY", "LIQPAY_PRIVATE_KEY")
+
+BASE_TIER_PRICE = os.getenv("BASE_TIER", "BASE_TIER")
+EXTENDED_TIER_PRICE = os.getenv("EXTENDED_TIER", "EXTENDED_TIER")
