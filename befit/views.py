@@ -1,11 +1,12 @@
 import requests
 from liqpay import LiqPay
 from uuid import uuid4
+from urllib.parse import urljoin
 
 from django.views import View
 from django.views.generic import TemplateView
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import HttpRequest, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +14,8 @@ from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.forms import Form
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 from .models import Order
 from .forms import OrderForm
@@ -26,26 +29,27 @@ def index(request: HttpRequest, **kwargs) -> HttpResponse:
     if paid:
         context["paid"] = paid
 
-    if paid:
-        context["failure"] = paid
+    if failure:
+        context["failure"] = failure
 
     return render(request, template_name="home.html", context=context)
 
 
 def pay(order: Order) -> str | None:
     liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
+    print(urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("befit:pay_callback"))))
     params = {
         "action": "pay",
         "amount": f"{order.price}",
         "currency": "UAH",
         "description": f"Оплата за курс BiFit: {order.tier}",
-        "paytypes": "apay gpay card liqpay privat24",
+        "paytypes": "apay privat24",
         "order_id": f"{order.order_id}",
         "version": "3",
         "language": "uk",
         "delivery_emails": [order.email],
         "sandbox": 1,  # sandbox mode, set to 1 to enable it
-        "server_url": str(reverse_lazy("befit:pay_callback")),  # url to callback view
+        "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("befit:pay_callback"))),  # url to callback view
     }
 
     params = {
@@ -63,6 +67,22 @@ def pay(order: Order) -> str | None:
         print("Exception occurred", str(e))
 
 
+def send_email_access(order: Order) -> None:
+
+    html_message = render_to_string(
+        "communication/email.html",
+        {"recipient_name": order.fullname, "url": settings.ACCESS_URL}
+    )
+
+    send_mail(
+        subject=f"Підписка BeFit {order.tier}",
+        message="",
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[order.email],
+        html_message=html_message,
+        fail_silently=False,
+    )
+
 class PayView(TemplateView):
     def get(self,  request, *args, **kwargs):
         return redirect(reverse_lazy("befit:home"))
@@ -76,7 +96,6 @@ class PayView(TemplateView):
             order = Order.objects.create(
                 price=price, order_id=uuid4(), **form.cleaned_data
             )
-
             return redirect(pay(order))
         else:
             return render(request, "home.html", {"form": form, "invalid": True})
@@ -85,23 +104,24 @@ class PayView(TemplateView):
 @method_decorator(csrf_exempt, name="dispatch")
 class PayCallbackView(View):
     def post(self, request, *args, **kwargs):
+        print("Got call to redirect")
         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
         data = request.POST.get("data")
         signature = request.POST.get("signature")
         sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
         if sign == signature:
-            print("callback is valid")
             response = liqpay.decode_data_from_str(data)
-            order = get_object_or_404(Order, response.get("order_id"))
-            if response["status"] == "success":
+            order = get_object_or_404(Order, order_id=response.get("order_id"))
+
+            # TODO: Change status to success when testing in production
+            if response["status"] == "sandbox":
                 order.payment_status = "paid"
                 order.save()
-                print("callback data", response)
-                return redirect(reverse("befit:home"), paid="True")
-        else:
-            print("callback invalid")
-            response = liqpay.decode_data_from_str(data)
-            print("callback data", response)
-            return redirect(reverse("befit:home"), failure="True")
+
+                send_email_access(order)
+
+                return redirect(reverse("befit:home") + "?paid=True")
+        print("callback invalid")
+        return redirect(reverse("befit:home") + "?failure=True")
 
 

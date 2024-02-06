@@ -1,6 +1,6 @@
 {% load static %}
 
-<div id="confirmation" class="modal" {% if paid == "True" %}style="display: flex"{% endif %}>
+<div id="confirmation" class="modal" {% if paid %}style="display: flex"{% endif %}>
   <div class="modal-content">
 
     <h4 class="has-text-align-center">Оплата пройшла успішно!</h4>
@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div id="failure" class="modal" {% if failure == "True" %}style="display: flex"{% endif %}>
+<div id="failure" class="modal" {% if failure %}style="display: flex"{% endif %}>
   <div class="modal-content">
 
     <h4 class="has-text-align-center">Помилка оплати!</h4>

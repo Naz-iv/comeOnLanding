@@ -19,7 +19,8 @@ DEBUG = os.getenv("DEBUG", "False")
 
 ALLOWED_HOSTS = [
     "befit-pgfb.onrender.com",
-    "localhost"
+    "localhost",
+    "127.0.0.1"
 ]
 
 
@@ -124,8 +125,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Liqpay configurations
 LIQPAY_PUBLIC_KEY = os.getenv("LIQPAY_PUBLIC_KEY", "LIQPAY_PUBLIC_KEY")
 LIQPAY_PRIVATE_KEY = os.getenv("LIQPAY_PRIVATE_KEY", "LIQPAY_PRIVATE_KEY")
+REDIRECT_DOMAIN = os.getenv("REDIRECT_DOMAIN", "http://localhost:8000/")
 
 BASE_TIER_PRICE = os.getenv("BASE_TIER", "BASE_TIER")
 EXTENDED_TIER_PRICE = os.getenv("EXTENDED_TIER", "EXTENDED_TIER")
+
+# Email backend configurations
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "example@gmail.com")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "STRONG_PASSWORD")
+
+# Access url for subscribers
+ACCESS_URL = os.getenv("ACCESS_UTL", "https://www.youtube.com/")
