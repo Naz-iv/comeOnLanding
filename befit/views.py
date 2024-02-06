@@ -22,7 +22,11 @@ from .forms import OrderForm
 
 
 def index(request: HttpRequest, **kwargs) -> HttpResponse:
-    context = {"form": OrderForm()}
+    context = {
+        "form": OrderForm(),
+        "base_price": settings.BASE_TIER_PRICE,
+        "extended_price": settings.EXTENDED_TIER_PRICE
+    }
     paid = request.GET.get("paid")
     failure = request.GET.get("failure")
 
@@ -47,7 +51,6 @@ def pay(order: Order) -> str | None:
         "order_id": f"{order.order_id}",
         "version": "3",
         "language": "uk",
-        "delivery_emails": [order.email],
         "sandbox": 1,  # sandbox mode, set to 1 to enable it
         "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("befit:pay_callback"))),  # url to callback view
     }

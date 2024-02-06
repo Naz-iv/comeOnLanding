@@ -2440,3 +2440,12 @@ h6 {
 
 .faq-answer {
 }
+
+.discounted-price {
+    color: green;
+}
+
+.old-price {
+    color: red;
+    text-decoration: line-through;
+}

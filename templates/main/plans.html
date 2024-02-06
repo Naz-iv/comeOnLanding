@@ -1,4 +1,6 @@
 {% load static %}
+{% load custom_filters %}
+
 
 <div id="plans"
      class="block-group has-global-padding is-layout-constrained block-group-is-layout-constrained"
@@ -17,7 +19,9 @@
 
 
       <h3 class="block-heading has-tertiary-color has-text-color has-link-color has-x-large-font-size elements-74404d736221a0f2aa7901986ef461b8">
-        499 грн</h3>
+        <span class="old-price">{{ extended_price|multiply:3 }} грн</span>
+        <span class="discounted-price">{{ extended_price }} грн</span>
+      </h3>
 
 
       <p class="has-tertiary-color has-text-color has-link-color has-x-large-font-size elements-272f31a695723fcf7713868f8342a78c">
@@ -57,7 +61,9 @@
 
 
       <h3 class="block-heading has-tertiary-color has-text-color has-link-color has-x-large-font-size elements-74404d736221a0f2aa7901986ef461b8">
-        499 грн</h3>
+        <span class="old-price">{{ base_price|multiply:3 }} грн</span>
+        <span class="discounted-price">{{ base_price }} грн</span>
+      </h3>
 
 
       <p class="has-tertiary-color has-text-color has-link-color has-x-large-font-size elements-272f31a695723fcf7713868f8342a78c">
