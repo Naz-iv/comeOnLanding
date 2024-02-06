@@ -26,7 +26,20 @@
 }
 
 .block-navigation {
-    font-size: var(--preset--font-size--small);
+    font-size: var(--preset--font-size--normal);
+}
+
+
+@media screen and (max-width: 782px) {
+    .block-navigation {
+        font-size: var(--preset--font-size--medium);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .block-navigation {
+        font-size: var(--preset--font-size--small);
+    }
 }
 
 .block-navigation a:where(:not(.element-button)) {
@@ -2448,4 +2461,188 @@ h6 {
 .old-price {
     color: red;
     text-decoration: line-through;
+}
+
+#limited-time-offer {
+    display: flex;
+    grid-template-columns: repeat(3, 1fr); /* Create three equal-width columns */
+    gap: 15px; /* Add some gap between columns */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    background-color: #f8f8f8;
+    padding: 10px;
+}
+
+/*.countdown-timer {*/
+/*    font-size: 18px;*/
+/*    align-items: center;*/
+/*    align-content: center;*/
+/*    justify-content: center;*/
+/*    color: red;*/
+/*    background-color: #ffc20b;*/
+/*}*/
+
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    color: #333;
+}
+
+.countdown-timer span {
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    margin: 0 5px;
+    padding: 5px 0;
+}
+
+.countdown-timer span.minutes {
+    background-color: #ffa500; /* Orange background for minutes */
+}
+
+.countdown-timer span.seconds {
+    background-color: #ff0000; /* Red background for seconds */
+    color: #fff; /* White text color for seconds */
+}
+
+.discount {
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bolder;
+    color: red;
+}
+
+
+.discount-black {
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bolder;
+    color: black;
+}
+
+.minutes {
+    font-weight: bolder;
+    padding: 2px;
+}
+
+.seconds {
+    font-weight: bolder;
+    padding: 2px;
+}
+
+@media screen and (max-width: 782px) {
+    .discount {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .discount {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .discount {
+        font-size: 8px;
+    }
+}
+
+@media screen and (max-width: 782px) {
+    .discount-black {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .discount-black {
+        font-size: 8px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .discount-black {
+        font-size: 6px;
+    }
+}
+
+@media screen and (max-width: 782px) {
+    .countdown-timer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .countdown-timer span {
+        display: inline-block;
+        width: 30px;
+        text-align: center;
+        background-color: #f8f8f8;
+        border-radius: 3px;
+        margin: 0 3px;
+        padding: 3px 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .countdown-timer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        color: #333;
+    }
+
+    .countdown-timer span {
+        display: inline-block;
+        width: 18px;
+        text-align: center;
+        background-color: #f8f8f8;
+        border-radius: 1px;
+        margin: 0 1px;
+        padding: 1px 0;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .countdown-timer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        font-size: 9px;
+        color: #333;
+    }
+
+    .countdown-timer span {
+        display: inline-block;
+        width: 15px;
+        text-align: center;
+        background-color: #f8f8f8;
+        border-radius: 1px;
+        margin: 0 1px;
+        padding: 1px 0;
+    }
+}
+
+
+#plans #limited-time-offer a {
+    display: none;
+}
+
+#plans #limited-time-offer p {
+    display: none;
 }

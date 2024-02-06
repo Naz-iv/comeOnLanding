@@ -43,6 +43,18 @@
     width: 100%;
   }
 }
+.col-3 {
+  width: -webkit-calc((100% - 30px) / 3);
+  width: -moz-calc((100% - 30px) / 3);
+  width: calc((100% - 30px) / 3);
+}
+
+
+@media (max-width: 767px) {
+  .col-3 {
+    width: 100%;
+  }
+}
 
 /* ==========================================================================
    #BOX-SIZING
