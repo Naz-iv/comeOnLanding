@@ -48,7 +48,11 @@
 }
 
 .block-navigation a:where(:not(.element-button)):hover {
-    text-decoration: underline;
+    background-color: #c2d076;
+    border-radius: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    transition: all 0.5s;
 }
 
 .block-group {
@@ -1182,9 +1186,9 @@ body {
     --preset--color--pale-cyan-blue: #8ed1fc;
     --preset--color--vivid-cyan-blue: #0693e3;
     --preset--color--vivid-purple: #9b51e0;
-    --preset--color--primary: #11181F;
-    --preset--color--secondary: #005ae1;
-    --preset--color--foreground: #11181F;
+    --preset--color--primary: #002409;
+    --preset--color--secondary: #002409;
+    --preset--color--foreground: #002409;
     --preset--color--background: #ffffff;
     --preset--color--tertiary: #f7f9fd;
     --preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg, rgba(6, 147, 227, 1) 0%, rgb(155, 81, 224) 100%);
@@ -2088,6 +2092,8 @@ h6 {
 .container-core-group-is-layout-12.container-core-group-is-layout-12.container-core-group-is-layout-12.container-core-group-is-layout-12 > * + * {
     margin-block-start: var(--preset--spacing--60);
     margin-block-end: 0;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
 .container-core-group-is-layout-13.container-core-group-is-layout-13 {
@@ -2676,4 +2682,24 @@ h6 {
     #plans #limited-time-offer span {
         font-size: 12px;
     }
+}
+
+.hover-effect {
+    background-color: unset;
+}
+.hover-effect:hover {
+    background-color: #c2d076;
+    border-radius: 20px;
+    padding: 10px;
+    transition: all .5s;
+}
+
+.hover-button {
+    transition: all .25s;
+    background-color: unset;
+}
+
+.hover-button:hover {
+    background-color: #c2d076 !important;
+    letter-spacing: 2px;
 }

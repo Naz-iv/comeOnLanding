@@ -3,7 +3,7 @@
 <div id="myModal" class="modal" {% if invalid %}style="display: flex"{% endif %}>
   <div class="modal-content">
 
-    <form method="POST" action="{% url 'befit:pay_view' %}" novalidate>
+    <form method="POST" action="{% url 'benefit:pay_view' %}" novalidate>
       {% csrf_token %}
 
       {% if form.non_field_errors %}
@@ -34,8 +34,8 @@
       {% endfor %}
 
       <div class="has-text-align-center">
-        <button class="btn btn--radius-2 btn--blue" type="submit">ОПЛАТИТИ</button>
-        <button class="btn btn--radius-2 btn--orange" type="reset" onclick="closeForm()">СКАСУВАТИ</button>
+        <button class="block-button__link has-background-color has-secondary-background-color has-text-color has-background element-button hover-button" type="submit">ОПЛАТИТИ</button>
+        <button class="block-button__link has-background-color has-secondary-background-color has-text-color has-background element-button hover-button" type="reset" onclick="closeForm()">СКАСУВАТИ</button>
       </div>
     </form>
   </div>

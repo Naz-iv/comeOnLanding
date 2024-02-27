@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime
 from liqpay import LiqPay
 from uuid import uuid4
 from urllib.parse import urljoin
@@ -22,11 +23,17 @@ from .forms import OrderForm
 
 
 def index(request: HttpRequest, **kwargs) -> HttpResponse:
+    expiry_date = settings.EXPIRY_DATE or None
+    if expiry_date:
+        expiry_date_tz_aware = timezone.make_aware(datetime.strptime(expiry_date, "%Y-%m-%d %H:%M"))
+        if expiry_date_tz_aware < timezone.now():
+            expiry_date = None
+
     context = {
         "form": OrderForm(),
         "base_price": settings.BASE_TIER_PRICE,
         "extended_price": settings.EXTENDED_TIER_PRICE,
-        "expiry_date": settings.EXPIRY_DATE if settings.EXPIRY_DATE != "EXPIRY_DATE" else None
+        "expiry_date": expiry_date
     }
     paid = request.GET.get("paid")
     failure = request.GET.get("failure")

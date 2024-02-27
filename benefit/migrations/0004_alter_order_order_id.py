@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("befit", "0003_order_order_id"),
+        ("benefit", "0003_order_order_id"),
     ]
 
     operations = [

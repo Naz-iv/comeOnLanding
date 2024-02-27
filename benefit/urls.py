@@ -8,4 +8,4 @@ urlpatterns = [
     path("pay-callback/", PayCallbackView.as_view(), name="pay_callback"),
 ]
 
-app_name = "befit"
+app_name = "benefit"

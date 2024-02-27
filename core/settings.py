@@ -18,7 +18,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "DEFAULT_SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False")
 
 ALLOWED_HOSTS = [
-    "befit-pgfb.onrender.com",
+    "benefit-pgfb.onrender.com",
     "localhost",
     "127.0.0.1"
 ]
@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "befit"
+    "benefit"
 ]
 
 MIDDLEWARE = [

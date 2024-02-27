@@ -18,9 +18,9 @@
           src="{% static 'js/_static.js' %}"></script>
 
   <!-- End Jetpack Open Graph Tags -->
-  <link rel="icon" href="{% static 'icons/befit.png' %}" sizes="32x32">
-  <link rel="icon" href="{% static 'icons/befit.png' %}" sizes="192x192">
-  <link rel="apple-touch-icon" href="{% static 'icons/befit.png' %}">
+  <link rel="icon" href="{% static 'icons/benefit.png' %}" sizes="32x32">
+  <link rel="icon" href="{% static 'icons/benefit.png' %}" sizes="192x192">
+  <link rel="apple-touch-icon" href="{% static 'icons/benefit.png' %}">
   <script src="{% static 'js/actionbar.js' %}" defer=""></script>
   <link rel="stylesheet" id="gravatar-card-css" href="{% static 'css/hovercard.css' %}">
   <link href="{% static 'css/actionbar.css' %}" rel="stylesheet">
@@ -51,18 +51,19 @@
                 class="block-columns alignright is-layout-flex container-core-columns-is-layout-1 block-columns-is-layout-flex">
               <div class="block-column is-layout-flow block-column-is-layout-flow">
                 <h1 class="block-heading margin-bottom-half has-text-color"
-                    style="color:#151515;font-size:clamp(28.836px, 1.802rem + ((1vw - 3.2px) * 2.405), 50px);line-height:1.2">
-                  БіФіт – в тебе все вийде!</h1>
+                    style="color:#151515;font-weight:bold; font-size:clamp(28px, 1.802rem + ((1.5vw - 2.2px) * 2.405), 80px);line-height:1.4; padding: 0 20px 10px 0">
+                  BeneFit</h1>
 
 
                 <p class="margin-top-half has-text-color"
-                   style="color:#151515;font-size:clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.341), 17px);line-height:1.65">
-                  Твоє “сьогодні” визначає ким ти будеш завтра</p>
+                   style="color:#151515;font-size:clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.341), 25px);line-height:1.65; padding: 0 5px 10px 0">
+                  Більше, ніж онлайн курс тренувань.<br>Це філософія життя!</p>
 
 
                 <div class="block-buttons is-layout-flex block-buttons-is-layout-flex">
                   <div class="block-button has-custom-width block-button__width-50">
-                    <a class="block-button__link element-button" href="#plans">Отримати доступ
+                    <a class="block-button__link element-button hover-button" href="#plans"
+                       style="width: 140%; height: auto">Отримати доступ
                     </a>
                   </div>
                 </div>
@@ -95,82 +96,39 @@
       {% endblock %}
     {% endif %}
 
-    {% block results %}
-      {% include "main/results.html" %}
-    {% endblock %}
-
-    {% block advantages %}
-      {% include "main/advantages.html" %}
-    {% endblock %}
-
     <div class="block-group alignfull has-global-padding is-layout-constrained block-group-is-layout-constrained"
          id="author"
          style="margin-top:0;margin-bottom:0;padding-top:var(--preset--spacing--80);padding-right:var(--preset--spacing--60);padding-bottom:var(--preset--spacing--80);padding-left:var(--preset--spacing--60)">
       <div
           class="block-columns alignwide is-layout-flex container-core-columns-is-layout-9 block-columns-is-layout-flex">
         <div class="block-column is-vertically-aligned-center is-layout-flow block-column-is-layout-flow">
-          <h2 class="block-heading has-text-align-left" style="margin-top:0">АВТОРКА КУРСУ</h2>
+          <h2 class="block-heading has-text-align-center" style="margin-top:0; padding-bottom: 10px;">ХТО Я?</h2>
 
 
-          <h2 class="block-heading has-text-align-left" style="margin-top:0">Катерина Агафонова </h2>
+          <h3 class="block-heading has-text-align-left" style="margin-top:0">Привіт, мене звуть Катя</h3>
 
+          <br>
+          <p class="has-text-align-left">Я автор курсу, тренер з 9-річним досвідом,<br>засновниця 2-ох спортивних
+            просторів
+            в Києві і Івано-Франківську,<br>гімнастка і чемпіонка світу по запуску паперових літачків</p>
 
-          <p class="has-text-align-left"><strong>Вища освіта НУФВСУ</strong><br>Спеціалізація «Фізкультурно-спортивна
-            реабілітація».</p>
-
-
-          <p class="has-text-align-left"><strong>Сертифікований тренер</strong><br>Практикую тренування у десятках
-            напрямків:</p>
-
-
-          <ul>
-            <li>Функціональний тренінг із власною вагою</li>
-
-
-            <li>Силові тренування з використанням малого обладнання</li>
-
-
-            <li>Міофасціальний реліз</li>
-
-
-            <li>Pilates matwork</li>
-
-
-            <li>Фітнес для вагітних</li>
-
-
-            <li>Stretching, mobility</li>
-
-
-            <li>Масаж, робота з тригерами</li>
-
-
-            <li>Спеціаліст зі зниження ваги тіла</li>
-          </ul>
-
-
-          <p class="has-text-align-left"><strong>У роботі спираюсь на:</strong></p>
-
-
-          <ul>
-            <li>теорію Томаса Маєрса. Анатомічні поїзди</li>
-
-
-            <li>теорію Грея Кука «Суглоб за суглобом»</li>
-
-
-            <li>систему пілатес, розробленою Йозефом Пілатесом</li>
-
-
-            <li>Mind body</li>
-          </ul>
+          <br>
+          <p class="has-text-align-left">В 2022 році на фоні стресу я поправилась,<br>проходила шлях схуднення і
+            заробила
+            собі розлад харчової поведінки.<br>Вийшла з цього стану самостійно,<br>схуднувши на 10 кг за 2 місяці без
+            важких
+            тренувань і дієт.<br>Допоможу і тобі.</p>
+          <br>
+          <p class="has-text-align-left">В кар'єрі тренера мене кидало від підходу «присідати шкідливо»,<br>до підходу
+            «а чому така маленька гантелька»)<br>Зараз використовую індивідуальний підхід навіть у величезних групах,<br>методом надання варіативності і
+            пояснень до кожної вправи.<br><br>Моя мета закохати тебе в спорт і здорове харчування.<br>Тому, якщо не
+            розумієш, як
+            можна любити присідання і гречку з куркою,<br>велкам до нашого коммьюніті, ми харчуємось набагато смачніше і
+            тренуємось цікавіше.</p>
+          <br>
         </div>
       </div>
     </div>
-
-    {% block program %}
-      {% include "main/program.html" %}
-    {% endblock %}
 
     {% block faq %}
       {% include "main/faq.html" %}
@@ -237,45 +195,45 @@
 <script>
     {% if expiry_date %}
         // Set the countdown date (replace with your desired end date)
-    var countdownDate = new Date("{{ expiry_date }}");
+        var countdownDate = new Date("{{ expiry_date }}");
 
-    // Update the countdown every second
-    var x = setInterval(function () {
-        // Get the current date and time
-        var now = new Date().getTime();
+        // Update the countdown every second
+        var x = setInterval(function () {
+            // Get the current date and time
+            var now = new Date().getTime();
 
-        // Calculate the remaining time
-        var distance = countdownDate - now;
+            // Calculate the remaining time
+            var distance = countdownDate - now;
 
-        // Calculate days, hours, minutes, and seconds
-        var hours = Math.floor(distance / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Calculate days, hours, minutes, and seconds
+            var hours = Math.floor(distance / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        var countdownTimers = document.getElementsByClassName("countdown-timer");
-        for (var i = 0; i < countdownTimers.length; i++) {
-            // Update the countdown timer display
-            countdownTimers[i].querySelector('.hours').textContent = pad(hours, 2);
-            countdownTimers[i].querySelector('.minutes').textContent = pad(minutes, 2);
-            countdownTimers[i].querySelector('.seconds').textContent = pad(seconds, 2);
+            var countdownTimers = document.getElementsByClassName("countdown-timer");
+            for (var i = 0; i < countdownTimers.length; i++) {
+                // Update the countdown timer display
+                countdownTimers[i].querySelector('.hours').textContent = pad(hours, 2);
+                countdownTimers[i].querySelector('.minutes').textContent = pad(minutes, 2);
+                countdownTimers[i].querySelector('.seconds').textContent = pad(seconds, 2);
 
+            }
+
+            // If the countdown is over, display a message
+            if (distance < 0) {
+                clearInterval(x);
+                document.querySelector('.countdown-timer').textContent = "EXPIRED";
+            }
+        }, 1000);
+
+        // Function to pad numbers with leading zeros
+        function pad(number, length) {
+            var str = '' + number;
+            while (str.length < length) {
+                str = '0' + str;
+            }
+            return str;
         }
-
-        // If the countdown is over, display a message
-        if (distance < 0) {
-            clearInterval(x);
-            document.querySelector('.countdown-timer').textContent = "EXPIRED";
-        }
-    }, 1000);
-
-    // Function to pad numbers with leading zeros
-    function pad(number, length) {
-        var str = '' + number;
-        while (str.length < length) {
-            str = '0' + str;
-        }
-        return str;
-    }
     {% endif %}
 </script>
 </body>
