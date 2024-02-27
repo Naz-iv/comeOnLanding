@@ -2501,6 +2501,10 @@ h6 {
     padding: 5px 0;
 }
 
+.countdown-timer span.hours {
+    background-color: #8c3f1c; /* Orange background for hours */
+}
+
 .countdown-timer span.minutes {
     background-color: #ffa500; /* Orange background for minutes */
 }
@@ -2527,6 +2531,12 @@ h6 {
     font-size: 16px;
     font-weight: bolder;
     color: black;
+}
+
+
+.hours {
+    font-weight: bolder;
+    padding: 2px;
 }
 
 .minutes {

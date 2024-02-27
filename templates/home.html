@@ -30,7 +30,9 @@
 <div id="home" class="site-blocks">
   {% block header %}
     {% include "includes/header.html" %}
-    {% include "includes/offer.html" %}
+    {% if  expiry_date %}
+      {% include "includes/offer.html" %}
+    {% endif %}
   {% endblock %}
 
   <main class="block-group is-layout-flow container-core-group-is-layout-47 block-group-is-layout-flow"
@@ -233,8 +235,9 @@
 </script>
 
 <script>
-    // Set the countdown date (replace with your desired end date)
-    var countdownDate = new Date(new Date().getTime() + (30 * 60 * 1000));
+    {% if expiry_date %}
+        // Set the countdown date (replace with your desired end date)
+    var countdownDate = new Date("{{ expiry_date }}");
 
     // Update the countdown every second
     var x = setInterval(function () {
@@ -245,12 +248,14 @@
         var distance = countdownDate - now;
 
         // Calculate days, hours, minutes, and seconds
+        var hours = Math.floor(distance / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         var countdownTimers = document.getElementsByClassName("countdown-timer");
         for (var i = 0; i < countdownTimers.length; i++) {
             // Update the countdown timer display
+            countdownTimers[i].querySelector('.hours').textContent = pad(hours, 2);
             countdownTimers[i].querySelector('.minutes').textContent = pad(minutes, 2);
             countdownTimers[i].querySelector('.seconds').textContent = pad(seconds, 2);
 
@@ -271,6 +276,7 @@
         }
         return str;
     }
+    {% endif %}
 </script>
 </body>
 </html>

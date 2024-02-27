@@ -25,7 +25,8 @@ def index(request: HttpRequest, **kwargs) -> HttpResponse:
     context = {
         "form": OrderForm(),
         "base_price": settings.BASE_TIER_PRICE,
-        "extended_price": settings.EXTENDED_TIER_PRICE
+        "extended_price": settings.EXTENDED_TIER_PRICE,
+        "expiry_date": settings.EXPIRY_DATE if settings.EXPIRY_DATE != "EXPIRY_DATE" else None
     }
     paid = request.GET.get("paid")
     failure = request.GET.get("failure")
