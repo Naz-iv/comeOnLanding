@@ -133,7 +133,7 @@ REDIRECT_DOMAIN = os.getenv("REDIRECT_DOMAIN", "http://localhost:8000/")
 BASE_TIER_PRICE = os.getenv("BASE_TIER", "BASE_TIER")
 EXTENDED_TIER_PRICE = os.getenv("EXTENDED_TIER", "EXTENDED_TIER")
 
-EXPIRY_DATE = os.getenv("EXPIRY_DATE", "EXPIRY_DATE")
+EXPIRY_DATE = os.getenv("EXPIRY_DATE", None)
 
 # Email backend configurations
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
