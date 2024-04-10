@@ -457,9 +457,9 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"], p.has-text-align-right
 
 .block-image img {
     box-sizing: border-box;
-    height: auto;
+    height: fit-content;
     max-width: 100%;
-    vertical-align: bottom
+    vertical-align: center;
 }
 
 .block-image[style*=border-radius] img, .block-image[style*=border-radius] > a {
@@ -475,7 +475,7 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"], p.has-text-align-right
 }
 
 .block-image.alignfull img, .block-image.alignwide img {
-    height: auto;
+    height: fit-content;
     width: 100%
 }
 
@@ -2429,7 +2429,7 @@ h6 {
     opacity: 75%;
     position: sticky;
     z-index: 100;
-    height: var(--preset--spacing--70);
+    height: fit-content;
 }
 
 .modal {
@@ -2687,6 +2687,7 @@ h6 {
 .hover-effect {
     background-color: unset;
 }
+
 .hover-effect:hover {
     background-color: #c2d076;
     border-radius: 20px;
@@ -2702,4 +2703,55 @@ h6 {
 .hover-button:hover {
     background-color: #c2d076 !important;
     letter-spacing: 2px;
+}
+
+.responsive-image {
+    width: 4vw;
+    height: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    .responsive-image {
+        width: 8vw;
+        max-width: 100vw; /* Set maximum width for smaller screens */
+    }
+}
+
+@media only screen and (min-width: 769px) {
+    .responsive-image {
+        max-width: 200vw; /* Set maximum width for larger screens */
+    }
+}
+
+.responsive-video {
+    width: 30vw;
+    height: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    .responsive-video {
+        width: 65vw;
+        max-width: 100vw; /* Set maximum width for smaller screens */
+    }
+}
+
+.crossed-text {
+    text-decoration: line-through;
+}
+
+@media only screen and (max-width: 768px) {
+    .responsive-plan {
+        flex-direction: column;
+    }
+}
+
+.responsive-button {
+    padding: 30px 20px 30px;
+}
+
+@media only screen and (max-width: 768px) {
+    .responsive-button {
+        padding-left: 70px;
+        padding-right: 70px;
+    }
 }
