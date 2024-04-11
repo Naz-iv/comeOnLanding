@@ -2488,7 +2488,7 @@ h6 {
 }
 
 .old-price {
-    color: red;
+    color: #d94848;
     text-decoration: line-through;
 }
 
@@ -2764,6 +2764,10 @@ h6 {
     text-decoration: line-through;
 }
 
+.responsive-plan {
+    flex-direction: row;
+}
+
 @media only screen and (max-width: 768px) {
     .responsive-plan {
         flex-direction: column;
@@ -2800,14 +2804,16 @@ h6 {
 
 .me-block {
     display: flex;
-    flex-direction: row; !important;
+    flex-direction: row;
+!important;
     justify-content: center;
     align-items: center;
 }
 
 @media only screen and (max-width: 768px) {
     .me-block {
-        flex-direction: column; !important;
+        flex-direction: column;
+    !important;
 
     }
 }
@@ -2842,4 +2848,8 @@ h6 {
     .faq-icon {
         width: 11px;
     }
+}
+
+.price-plan {
+    width: 30vw
 }

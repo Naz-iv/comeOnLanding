@@ -4,12 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "DEFAULT_SECRET_KEY")
@@ -22,9 +17,6 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1"
 ]
-
-
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -68,20 +60,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB", "benefit"),
+        "USER": os.getenv("POSTGRES_USER", "benefit"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "benefit"),
+        "HOST": os.getenv("POSTGRES_HOST", "benefit"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432"),
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -98,10 +86,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -110,18 +94,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_URL = "static/"
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -130,8 +107,12 @@ LIQPAY_PUBLIC_KEY = os.getenv("LIQPAY_PUBLIC_KEY", "LIQPAY_PUBLIC_KEY")
 LIQPAY_PRIVATE_KEY = os.getenv("LIQPAY_PRIVATE_KEY", "LIQPAY_PRIVATE_KEY")
 REDIRECT_DOMAIN = os.getenv("REDIRECT_DOMAIN", "http://localhost:8000/")
 
-BASE_TIER_PRICE = os.getenv("BASE_TIER", "BASE_TIER")
-EXTENDED_TIER_PRICE = os.getenv("EXTENDED_TIER", "EXTENDED_TIER")
+BASE_TIER_START = os.getenv("BASE_TIER_START", 249)
+EXTENDED_TIER_START = os.getenv("EXTENDED_TIER_START", 349)
+BASE_TIER_END = os.getenv("BASE_TIER_END", 349)
+EXTENDED_TIER_END = os.getenv("EXTENDED_TIER_END", 499)
+START_AMOUNT = os.getenv("START_AMOUNT", 10)
+
 
 EXPIRY_DATE = os.getenv("EXPIRY_DATE", None)
 
@@ -145,3 +126,11 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "STRONG_PASSWORD")
 
 # Access url for subscribers
 ACCESS_URL = os.getenv("ACCESS_UTL", "https://www.youtube.com/")
+
+# Cache configurations
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "my_cache",
+    }
+}

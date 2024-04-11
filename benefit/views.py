@@ -17,23 +17,26 @@ from django.utils import timezone
 from django.forms import Form
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.core.cache import cache
 
 from .models import Order
 from .forms import OrderForm
 
 
 def index(request: HttpRequest, **kwargs) -> HttpResponse:
-    expiry_date = settings.EXPIRY_DATE or None
-    if expiry_date:
-        expiry_date_tz_aware = timezone.make_aware(datetime.strptime(expiry_date, "%Y-%m-%d %H:%M"))
-        if expiry_date_tz_aware < timezone.now():
-            expiry_date = None
+
+    sold_base = cache.get("base_count", 0)
+    sold_extended = cache.get("extended_count", 0)
 
     context = {
         "form": OrderForm(),
-        "base_price": settings.BASE_TIER_PRICE,
-        "extended_price": settings.EXTENDED_TIER_PRICE,
-        "expiry_date": expiry_date
+        "base_price_start": settings.BASE_TIER_START,
+        "extended_price_start": settings.EXTENDED_TIER_START,
+        "base_price_end": settings.BASE_TIER_END,
+        "extended_price_end": settings.EXTENDED_TIER_END,
+        "start_amount": int(settings.START_AMOUNT),
+        "sold_base": sold_base,
+        "sold_extended": sold_extended,
     }
     paid = request.GET.get("paid")
     failure = request.GET.get("failure")
@@ -46,13 +49,13 @@ def index(request: HttpRequest, **kwargs) -> HttpResponse:
 
     return render(request, template_name="home.html", context=context)
 
+
 def agreement(request: HttpRequest, **kwargs) -> HttpResponse:
     return render(request, template_name="includes/agreement.html")
 
 
 def pay(order: Order) -> str | None:
     liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
-    print(urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))))
     params = {
         "action": "pay",
         "amount": f"{order.price}",
@@ -63,7 +66,8 @@ def pay(order: Order) -> str | None:
         "version": "3",
         "language": "uk",
         "sandbox": 1,  # sandbox mode, set to 1 to enable it
-        "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),  # url to callback view
+        "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
+        # url to callback view
     }
 
     params = {
@@ -82,7 +86,6 @@ def pay(order: Order) -> str | None:
 
 
 def send_email_access(order: Order) -> None:
-
     html_message = render_to_string(
         "communication/email.html",
         {"recipient_name": order.fullname, "url": settings.ACCESS_URL}
@@ -97,15 +100,30 @@ def send_email_access(order: Order) -> None:
         fail_silently=False,
     )
 
+
 class PayView(TemplateView):
-    def get(self,  request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         return redirect(reverse_lazy("benefit:home"))
 
     def post(self, request, *args, **kwargs):
         form = OrderForm(request.POST)
         if form.is_valid():
-            tier = form.cleaned_data.get("tier", "BASE")
-            price = settings.BASE_TIER_PRICE if tier == "BASE" else settings.EXTENDED_TIER_PRICE
+            tier = form.cleaned_data.get("tier", "Бенефітик")
+
+            sold_base = cache.get("base_count", 0)
+            sold_extended = cache.get("extended_count", 0)
+            price = settings.BASE_TIER_START
+
+            if tier == "Бенефітик":
+                if sold_base < int(settings.START_AMOUNT):
+                    price = settings.BASE_TIER_START
+                else:
+                    price = settings.BASE_TIER_END
+            elif tier == "Бенефітище":
+                if sold_extended < int(settings.START_AMOUNT):
+                    price = settings.EXTENDED_TIER_START
+                else:
+                    price = settings.EXTENDED_TIER_END
 
             order = Order.objects.create(
                 price=price, order_id=uuid4(), **form.cleaned_data
@@ -118,7 +136,6 @@ class PayView(TemplateView):
 @method_decorator(csrf_exempt, name="dispatch")
 class PayCallbackView(View):
     def post(self, request, *args, **kwargs):
-        print("Got call to redirect")
         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
         data = request.POST.get("data")
         signature = request.POST.get("signature")
@@ -135,7 +152,5 @@ class PayCallbackView(View):
                 send_email_access(order)
 
                 return redirect(reverse("benefit:home") + "?paid=True")
-        print("callback invalid")
+
         return redirect(reverse("benefit:home") + "?failure=True")
-
-
