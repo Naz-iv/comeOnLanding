@@ -459,6 +459,7 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"], p.has-text-align-right
     box-sizing: border-box;
     height: fit-content;
     max-width: 100%;
+    max-height: 5%;
     vertical-align: center;
 }
 
