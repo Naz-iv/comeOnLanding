@@ -50,4 +50,5 @@ db.sqlite3
 db.sqlite3-journal
 __pypackages__/
 
-.mp4
+video/
+
