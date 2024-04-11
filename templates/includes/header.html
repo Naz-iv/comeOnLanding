@@ -1,51 +1,54 @@
 {% load static %}
 <header class="block-template-part site-header">
-    <div class="block-group alignfull has-global-padding is-layout-constrained block-group-is-layout-constrained"
-         style="padding-right:var(--preset--spacing--50);padding-top:var(--preset--spacing--20);padding-bottom:var(--preset--spacing--20);padding-left:var(--preset--spacing--50);">
-      <div
-          class="block-group alignwide is-content-justification-space-between is-nowrap is-layout-flex container-core-group-is-layout-2 block-group-is-layout-flex">
-        <div class="block-image">
-          <a href="/" target="_self">
-            <img src="{% static 'icons/benefit.svg' %}" alt="BeneFit" class="responsive-image">
-          </a>
-        </div>
+  <div class="block-group alignfull has-global-padding is-layout-constrained block-group-is-layout-constrained"
+       style="padding-right:var(--preset--spacing--50);padding-top:var(--preset--spacing--20);padding-bottom:var(--preset--spacing--20);padding-left:var(--preset--spacing--50);">
+    <div
+        class="block-group alignwide is-content-justification-space-between is-nowrap is-layout-flex container-core-group-is-layout-2 block-group-is-layout-flex">
+      <div class="block-image">
+        <a href="/" target="_self">
+          <img src="{% static 'icons/benefit.svg' %}" alt="BeneFit" class="responsive-image">
+        </a>
+      </div>
 
-        <nav
-            class="is-responsive items-justified-right block-navigation is-content-justification-right is-layout-flex container-core-navigation-is-layout-1 block-navigation-is-layout-flex"
-            aria-label="Navigation" data-interactive="{&quot;namespace&quot;:&quot;core/navigation&quot;}"
-            data-context="{&quot;overlayOpenedBy&quot;:[],&quot;type&quot;:&quot;overlay&quot;,&quot;roleAttribute&quot;:&quot;&quot;,&quot;ariaLabel&quot;:&quot;\u041c\u0435\u043d\u044e&quot;}"
-            data-init="callbacks.initNav" data-class--is-collapsed="context.isCollapsed">
-          <div class="block-navigation__responsive-container" style="" id="modal-1"
-               data-class--has-modal-open="state.isMenuOpen" data-class--is-menu-open="state.isMenuOpen"
-               data-watch="callbacks.initMenu" data-on--keydown="actions.handleMenuKeydown"
-               data-on--focusout="actions.handleMenuFocusout" tabindex="-1">
-            <div class="block-navigation__responsive-close" tabindex="-1">
-              <div class="block-navigation__responsive-dialog" data-bind--aria-modal="state.ariaModal"
-                   data-bind--aria-label="state.ariaLabel" data-bind--role="state.roleAttribute">
-                <div class="block-navigation__responsive-container-content"
-                     data-watch="callbacks.focusFirstElement" id="modal-1-content">
-                  <ul class="block-navigation__container is-responsive items-justified-right block-navigation">
-                    <li class=" block-navigation-item block-navigation-link" style="padding-right: 3vw"><a
-                        class="block-navigation-item__content" href="#home"><span
-                        class="block-navigation-item__label">Головна</span></a></li>
-                    <li class=" block-navigation-item block-navigation-link" style="padding-left: 3vw; padding-right: 3vw"><a
-                        class="block-navigation-item__content" href="#why"><span
-                        class="block-navigation-item__label">Курс</span></a></li>
-                    <li class=" block-navigation-item block-navigation-link" style="padding-left: 3vw; padding-right: 3vw"><a
-                        class="block-navigation-item__content" href="#program"><span
-                        class="block-navigation-item__label">Програма</span></a></li>
-                    <li class=" block-navigation-item block-navigation-link" style="padding-left: 3vw; padding-right: 3vw"><a
-                        class="block-navigation-item__content" href="#plans"><span
-                        class="block-navigation-item__label">Тарифи</span></a></li>
-                  </ul>
-                </div>
+      <nav
+          class="is-responsive items-justified-right block-navigation is-content-justification-right is-layout-flex container-core-navigation-is-layout-1 block-navigation-is-layout-flex"
+          aria-label="Navigation" data-interactive="{&quot;namespace&quot;:&quot;core/navigation&quot;}"
+          data-context="{&quot;overlayOpenedBy&quot;:[],&quot;type&quot;:&quot;overlay&quot;,&quot;roleAttribute&quot;:&quot;&quot;,&quot;ariaLabel&quot;:&quot;\u041c\u0435\u043d\u044e&quot;}"
+          data-init="callbacks.initNav" data-class--is-collapsed="context.isCollapsed">
+        <div class="block-navigation__responsive-container" style="" id="modal-1"
+             data-class--has-modal-open="state.isMenuOpen" data-class--is-menu-open="state.isMenuOpen"
+             data-watch="callbacks.initMenu" data-on--keydown="actions.handleMenuKeydown"
+             data-on--focusout="actions.handleMenuFocusout" tabindex="-1">
+          <div class="block-navigation__responsive-close" tabindex="-1">
+            <div class="block-navigation__responsive-dialog" data-bind--aria-modal="state.ariaModal"
+                 data-bind--aria-label="state.ariaLabel" data-bind--role="state.roleAttribute">
+              <div class="block-navigation__responsive-container-content"
+                   data-watch="callbacks.focusFirstElement" id="modal-1-content">
+                <ul class="block-navigation__container is-responsive items-justified-right block-navigation">
+                  <li class=" block-navigation-item block-navigation-link" style="padding-right: 3vw"><a
+                      class="block-navigation-item__content" href="#home"><span
+                      class="block-navigation-item__label">Головна</span></a></li>
+                  <li class=" block-navigation-item block-navigation-link"
+                      style="padding-left: 3vw; padding-right: 3vw"><a
+                      class="block-navigation-item__content" href="#why"><span
+                      class="block-navigation-item__label">Курс</span></a></li>
+                  <li class=" block-navigation-item block-navigation-link"
+                      style="padding-left: 3vw; padding-right: 3vw"><a
+                      class="block-navigation-item__content" href="#program"><span
+                      class="block-navigation-item__label">Програма</span></a></li>
+                  <li class=" block-navigation-item block-navigation-link"
+                      style="padding-left: 3vw; padding-right: 3vw"><a
+                      class="block-navigation-item__content" href="#plans"><span
+                      class="block-navigation-item__label">Тарифи</span></a></li>
+                </ul>
               </div>
             </div>
           </div>
-        </nav>
-        <div></div>
+        </div>
+      </nav>
+      <div></div>
 
-      </div>
     </div>
+  </div>
 
-  </header>
+</header>
