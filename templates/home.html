@@ -43,12 +43,13 @@
            style="padding-top:var(--preset--spacing--50);padding-right:var(--preset--spacing--50);padding-bottom:var(--preset--spacing--50);padding-left:var(--preset--spacing--50);min-height:760px">
         <span aria-hidden="true" class="block-cover__background has-background-dim-0 has-background-dim"></span><img
           class="block-cover__image-background image-1640" alt=""
-          src="https://dotcompatterns.files.wordpress.com/2020/07/sawyer-bengtson-ltc4dxneezu-unsplash-edit.jpg"
-          style="object-position:0% 60%" data-object-fit="cover" data-object-position="0% 60%">
+          src="{% static 'images/home.PNG' %}"
+          style="object-position:0% 60%;">
         <div class="block-cover__inner-container is-layout-flow block-cover-is-layout-flow center">
-          <div class="block-group has-global-padding is-layout-constrained block-group-is-layout-constrained">
+          <div class="block-group has-global-padding">
             <div
-                class="block-columns aligncenter is-layout-flex container-core-columns-is-layout-1 block-columns-is-layout-flex is-content-justification-center">
+                class="block-columns aligncenter is-layout-flex container-core-columns-is-layout-1 block-columns-is-layout-flex is-content-justification-center"
+                style="padding-left: 50%">
               <div class="block-column is-layout-flow block-column-is-layout-flow">
                 <h1 class="block-heading margin-bottom-half has-text-color"
                     style="color:#151515;font-weight:bold; font-size:clamp(28px, 1.802rem + ((1.5vw - 2.2px) * 2.405), 80px);line-height:1.4; padding: 0 20px 10px 0">
@@ -61,9 +62,8 @@
 
 
                 <div class="block-buttons is-layout-flex block-buttons-is-layout-flex">
-                  <div class="block-button has-custom-width block-button__width-50">
-                    <a class="block-button__link element-button hover-button" href="#plans"
-                       style="width: 140%; height: auto">Отримати доступ
+                  <div class="block-button has-custom-width start-button">
+                    <a class="block-button__link element-button hover-button" href="#plans">Отримати доступ
                     </a>
                   </div>
                 </div>
@@ -124,7 +124,8 @@
             тренувань і дієт.<br>Допоможу і тобі.</p>
           <br>
           <p class="has-text-align-left">В кар'єрі тренера мене кидало від підходу «присідати шкідливо»,<br>до підходу
-            «а чому така маленька гантелька»)<br>Зараз використовую індивідуальний підхід навіть у величезних групах,<br>методом надання варіативності і
+            «а чому така маленька гантелька»)<br>Зараз використовую індивідуальний підхід навіть у величезних
+            групах,<br>методом надання варіативності і
             пояснень до кожної вправи.<br><br>Моя мета закохати тебе в спорт і здорове харчування.<br>Тому, якщо не
             розумієш, як
             можна любити присідання і гречку з куркою,<br>велкам до нашого коммьюніті, ми харчуємось набагато смачніше і
@@ -155,21 +156,11 @@
 
         if (answerContainer.style.display === "none" || answerContainer.style.display === "") {
             answerContainer.style.display = "block";
+            {#button.querySelector("path").setAttribute("d", "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM184 232H328c13.3 0 24 10.7 24 24s-10.7 24-24 24H184c-13.3 0-24-10.7-24-24s10.7-24 24-24z");#}
         } else {
             answerContainer.style.display = "none";
+            {#button.querySelector("path").setAttribute("d", "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z");#}
         }
-    {#    #}
-    {#var container = button.closest(".container");#}
-    {##}
-    {#    var replyContainer = container.querySelector(".reply-container");#}
-    {##}
-    {#    if (replyContainer.style.display === "none" || replyContainer.style.display === "") {#}
-    {#        replyContainer.style.display = "block";#}
-    {#        button.innerHTML = "<i class='fa-solid fa-minus'></i>";#}
-    {#    } else {#}
-    {#        replyContainer.style.display = "none";#}
-    {#        button.innerHTML = "<i class='fa-solid fa-plus'></i>";#}
-    {#    }#}
     }
 </script>
 <script>
