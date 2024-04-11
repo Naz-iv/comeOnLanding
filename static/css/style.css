@@ -2731,7 +2731,7 @@ h6 {
 
 .responsive-image {
     width: 4vw;
-    height: auto;
+    height: 1vw;
 }
 
 @media only screen and (max-width: 768px) {
