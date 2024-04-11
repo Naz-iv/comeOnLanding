@@ -115,7 +115,7 @@ p.has-background {
     padding: 1.25em 2.375em
 }
 
-:where(p.has-text-color:not(.has-link-color)) a {
+:where(p.has-text-color has-primary-color:not(.has-link-color)) a {
     color: inherit
 }
 
@@ -204,7 +204,7 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"], p.has-text-align-right
     padding: .667em 1.333em
 }
 
-.block-button .block-button__link:where(.is-style-outline):not(.has-text-color), .block-button:where(.is-style-outline) > .block-button__link:not(.has-text-color) {
+.block-button .block-button__link:where(.is-style-outline):not(.has-text-color has-primary-color), .block-button:where(.is-style-outline) > .block-button__link:not(.has-text-color has-primary-color) {
     color: currentColor
 }
 
@@ -1186,8 +1186,8 @@ body {
     --preset--color--pale-cyan-blue: #8ed1fc;
     --preset--color--vivid-cyan-blue: #0693e3;
     --preset--color--vivid-purple: #9b51e0;
-    --preset--color--primary: #002409;
-    --preset--color--secondary: #002409;
+    --preset--color--primary: #c2d076;
+    --preset--color--secondary: #c2d076;
     --preset--color--foreground: #002409;
     --preset--color--background: #ffffff;
     --preset--color--tertiary: #f7f9fd;
@@ -1606,7 +1606,7 @@ h6 {
 }
 
 .has-tertiary-color {
-    color: var(--preset--color--tertiary) !important;
+    color: var(--preset--color--tertiary);
 }
 
 .has-black-background-color {
@@ -2431,7 +2431,7 @@ h6 {
 .site-header {
     top: 0;
     background: white;
-    opacity: 75%;
+    opacity: 100%;
     position: sticky;
     z-index: 100;
 
@@ -2789,4 +2789,11 @@ h6 {
     .start-button {
         width: calc(75% - var(--style--block-gap, .5em) * .25)
     }
+}
+
+.responsive-program {
+    justify-content: space-evenly;
+    align-content: space-evenly;
+    padding-right: 20px;
+    padding-left: 20px;
 }
