@@ -46,6 +46,9 @@ def index(request: HttpRequest, **kwargs) -> HttpResponse:
 
     return render(request, template_name="home.html", context=context)
 
+def agreement(request: HttpRequest, **kwargs) -> HttpResponse:
+    return render(request, template_name="includes/agreement.html")
+
 
 def pay(order: Order) -> str | None:
     liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
