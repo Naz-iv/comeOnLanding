@@ -2797,3 +2797,37 @@ h6 {
     padding-right: 20px;
     padding-left: 20px;
 }
+
+.me-block {
+    display: flex;
+    flex-direction: row; !important;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 768px) {
+    .me-block {
+        flex-direction: column; !important;
+
+    }
+}
+
+.me-block-text {
+    width: 25vw;
+}
+
+@media only screen and (max-width: 768px) {
+    .me-block-text {
+        width: 90vw;
+    }
+}
+
+.me-block-image {
+    width: 30vw;
+}
+
+@media only screen and (max-width: 768px) {
+    .me-block-image {
+        width: 90vw;
+    }
+}
