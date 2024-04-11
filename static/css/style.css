@@ -2429,14 +2429,12 @@ h6 {
 }
 
 .site-header {
-
     top: 0;
     background: white;
     opacity: 75%;
     position: sticky;
     z-index: 100;
-    height: auto;
-    max-height: 5%;
+
 }
 
 .modal {
