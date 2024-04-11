@@ -2727,7 +2727,7 @@ h6 {
 
 .hover-button:hover {
     background-color: #c2d076 !important;
-    letter-spacing: 2px;
+    letter-spacing: 0.3px;
 }
 
 .responsive-image {
