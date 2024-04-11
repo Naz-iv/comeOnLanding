@@ -2436,6 +2436,7 @@ h6 {
     position: sticky;
     z-index: 100;
     height: fit-content;
+    max-height: 10%;
 }
 
 .modal {

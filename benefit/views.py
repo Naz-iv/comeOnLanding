@@ -49,18 +49,18 @@ def index(request: HttpRequest, **kwargs) -> HttpResponse:
 
 def pay(order: Order) -> str | None:
     liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
-    print(urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("befit:pay_callback"))))
+    print(urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))))
     params = {
         "action": "pay",
         "amount": f"{order.price}",
         "currency": "UAH",
-        "description": f"Оплата за курс BiFit: {order.tier}",
+        "description": f"Оплата за курс BeneFit: {order.tier}",
         "paytypes": "apay privat24",
         "order_id": f"{order.order_id}",
         "version": "3",
         "language": "uk",
         "sandbox": 1,  # sandbox mode, set to 1 to enable it
-        "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("befit:pay_callback"))),  # url to callback view
+        "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),  # url to callback view
     }
 
     params = {
@@ -86,7 +86,7 @@ def send_email_access(order: Order) -> None:
     )
 
     send_mail(
-        subject=f"Підписка BeFit {order.tier}",
+        subject=f"Підписка BeneFit {order.tier}",
         message="",
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[order.email],
@@ -96,7 +96,7 @@ def send_email_access(order: Order) -> None:
 
 class PayView(TemplateView):
     def get(self,  request, *args, **kwargs):
-        return redirect(reverse_lazy("befit:home"))
+        return redirect(reverse_lazy("benefit:home"))
 
     def post(self, request, *args, **kwargs):
         form = OrderForm(request.POST)
@@ -131,8 +131,8 @@ class PayCallbackView(View):
 
                 send_email_access(order)
 
-                return redirect(reverse("befit:home") + "?paid=True")
+                return redirect(reverse("benefit:home") + "?paid=True")
         print("callback invalid")
-        return redirect(reverse("befit:home") + "?failure=True")
+        return redirect(reverse("benefit:home") + "?failure=True")
 
 
