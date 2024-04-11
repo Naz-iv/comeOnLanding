@@ -2831,3 +2831,15 @@ h6 {
         width: 90vw;
     }
 }
+
+.faq-icon {
+    width: 14px;
+    justify-content: center;
+    align-content: center
+}
+
+@media only screen and (max-width: 768px) {
+    .faq-icon {
+        width: 11px;
+    }
+}
