@@ -127,7 +127,7 @@ def pay_fondy(order: Order) -> str | None:
     checkout = Checkout(api=api)
 
     concatenated_string = "|".join(sorted(
-        [order.order_id,
+        [str(order.order_id),
          f"Оплата за курс BeneFit: {order.tier}",
          "UAH",
          str(price),
