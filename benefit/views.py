@@ -186,26 +186,48 @@ class PayView(TemplateView):
 
 
 # Liqpay callback view
+# @method_decorator(csrf_exempt, name="dispatch")
+# class PayCallbackView(View):
+#     def post(self, request, *args, **kwargs):
+#         print("Got responce form server")
+#         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
+#         data = request.POST.get("data")
+#         signature = request.POST.get("signature")
+#         sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
+#         if sign == signature:
+#             response = liqpay.decode_data_from_str(data)
+#             order = get_object_or_404(Order, order_id=response.get("order_id"))
+#
+#             # TODO: Change status to success when testing in production
+#             print(response["status"])
+#             if response["status"] == "sandbox":
+#                 order.payment_status = "paid"
+#                 order.save()
+#
+#                 send_email_access(order)
+#
+#                 return redirect(reverse("benefit:home") + "?paid=True")
+#
+#         return redirect(reverse("benefit:home") + "?failure=True")
+
+# Fondy callback view
 @method_decorator(csrf_exempt, name="dispatch")
 class PayCallbackView(View):
     def post(self, request, *args, **kwargs):
         print("Got responce form server")
-        liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
-        data = request.POST.get("data")
-        signature = request.POST.get("signature")
-        sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
-        if sign == signature:
-            response = liqpay.decode_data_from_str(data)
-            order = get_object_or_404(Order, order_id=response.get("order_id"))
+        print(request.POST)
+        order_id = request.POST.get("order_id")
+        order_status = request.POST.get("order_status")
+        order = get_object_or_404(Order, order_id=order_id)
 
-            # TODO: Change status to success when testing in production
-            print(response["status"])
-            if response["status"] == "sandbox":
-                order.payment_status = "paid"
-                order.save()
+        # TODO: Change status to success when testing in production
+        print(order_status)
+        if order_status == "approved ":
+            order.payment_status = "paid"
+            order.save()
 
-                send_email_access(order)
+            send_email_access(order)
 
-                return redirect(reverse("benefit:home") + "?paid=True")
+            return redirect(reverse("benefit:home") + "?paid=True")
 
         return redirect(reverse("benefit:home") + "?failure=True")
