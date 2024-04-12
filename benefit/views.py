@@ -235,7 +235,7 @@ class PayCallbackView(View):
                 send_email_access(order)
 
                 return redirect(reverse(
-                    "benefit:home") + f"?paid=True&status={order_status}&{signature == request.POST.get('signature')}")
+                    "benefit:home") + f"?paid=True&status={request.POST.get('order_status')}&{signature == request.POST.get('signature')}")
 
         return redirect(reverse(
-            "benefit:home") + f"?failure=True&status={order_status}&{signature == request.POST.get('signature')}")
+            "benefit:home") + f"?failure=True&status={request.POST.get('order_status')}&{signature == request.POST.get('signature')}")
