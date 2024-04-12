@@ -125,11 +125,24 @@ def pay_fondy(order: Order) -> str | None:
     price = int(order.price) * 100
     api = Api(merchant_id=settings.FONDY_MERCHANT_ID, secret_key=settings.FONDY_MERCHANT_SECRET_KEY)
     checkout = Checkout(api=api)
+
+    concatenated_string = "|".join(sorted(
+        [order.order_id,
+         f"Оплата за курс BeneFit: {order.tier}",
+         "UAH",
+         str(price),
+         settings.FONDY_MERCHANT_ID + "|" + settings.FONDY_MERCHANT_SECRET_KEY]
+    ))
+
+    # Calculate SHA1 hash
+    signature = hashlib.sha1(concatenated_string.encode()).hexdigest()
+
     data = {
         "order_id": f"{order.order_id}",
         "order_desc": f"Оплата за курс BeneFit: {order.tier}",
         "currency": "UAH",
         "amount": price,
+        "signature": signature,
         "response_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
         "server_callback_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
     }
@@ -162,8 +175,8 @@ class PayView(TemplateView):
         if form.is_valid():
             tier = form.cleaned_data.get("tier", "Бенефітик")
 
-            sold_base = cache.get("base_count", 0)
-            sold_extended = cache.get("extended_count", 0)
+            sold_base = cache.get("base_count", Order.objects.filter(tier="Бенефітик").count())
+            sold_extended = cache.get("extended_count", Order.objects.filter(tier="Бенефітище").count())
             price = settings.BASE_TIER_START
 
             if tier == "Бенефітик":
