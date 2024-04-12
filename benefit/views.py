@@ -88,61 +88,30 @@ def pay(order: Order) -> str | None:
         print("Exception occurred", str(e))
 
 
-# Fondy payment algorithm
-def pay_fondy(order: Order) -> str | None:
-    # params = {
-    #     "order_id": f"{order.order_id}",
-    #     "order_desc": f"Оплата за курс BeneFit: {order.tier}",
-    #     "currency": "UAH",
-    #     "amount": "1",
-    #     "signature": "df38818facfbfd79953fa847667dac73a1291127",
-    #     "merchant_id": "1396424"
-    # }
-    #
-    # merchant_password = settings.FONDY_MERCHANT_PASSWORD
-    #
-    # concatenated_string = "|".join(sorted(
-    #     [params["order_id"], params["order_desc"], params["currency"], params["amount"],
-    #      params["merchant_id"]])) + "|" + merchant_password
-    #
-    # # Calculate SHA1 hash
-    # signature = hashlib.sha1(concatenated_string.encode()).hexdigest()
-    #
-    # # Update the params dictionary with the generated signature
-    # params["signature"] = signature
-    #
-    # try:
-    #     response = requests.post(url="https://pay.fondy.eu/api/checkout/url/", data=params)
-    #     if response.status_code == 200:
-    #         print(response.url)
-    #         return response.url
-    #     else:
-    #         print("Something went wrong")
-    #         return
-    # except Exception() as e:
-    #
-    #     print("Exception occurred", str(e))
-    price = int(order.price) * 100
-    api = Api(merchant_id=settings.FONDY_MERCHANT_ID, secret_key=settings.FONDY_MERCHANT_SECRET_KEY)
-    checkout = Checkout(api=api)
-
+def get_fondy_signature(order: Order) -> str:
     concatenated_string = "|".join(sorted(
         [str(order.order_id),
          f"Оплата за курс BeneFit: {order.tier}",
          "UAH",
-         str(price),
+         str(int(order.price) * 100),
          settings.FONDY_MERCHANT_ID + "|" + settings.FONDY_MERCHANT_SECRET_KEY]
     ))
 
     # Calculate SHA1 hash
-    signature = hashlib.sha1(concatenated_string.encode()).hexdigest()
+    return hashlib.sha1(concatenated_string.encode()).hexdigest()
+
+
+# Fondy payment algorithm
+def pay_fondy(order: Order) -> str | None:
+    price = int(order.price) * 100
+    api = Api(merchant_id=settings.FONDY_MERCHANT_ID, secret_key=settings.FONDY_MERCHANT_SECRET_KEY)
+    checkout = Checkout(api=api)
 
     data = {
         "order_id": f"{order.order_id}",
         "order_desc": f"Оплата за курс BeneFit: {order.tier}",
         "currency": "UAH",
         "amount": price,
-        "signature": signature,
         "response_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
         "server_callback_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
     }
@@ -229,26 +198,15 @@ class PayCallbackView(View):
     def post(self, request, *args, **kwargs):
         order = get_object_or_404(Order, order_id=request.POST.get("order_id"))
 
-        concatenated_string = "|".join(sorted(
-            [order.order_id,
-             f"Оплата за курс BeneFit: {order.tier}",
-             "UAH",
-             str(int(order.price) * 100),
-             settings.FONDY_MERCHANT_ID + "|" + settings.FONDY_MERCHANT_SECRET_KEY]
-        ))
-
-        # Calculate SHA1 hash
-        signature = hashlib.sha1(concatenated_string.encode()).hexdigest()
         # TODO: Change status to success when testing in production
-        if signature == request.POST.get("signature"):
-            if request.POST.get("order_status") == "approved":
-                order.payment_status = "paid"
-                order.save()
+        if request.POST.get("order_status") == "approved":
+            order.payment_status = "paid"
+            order.save()
 
-                send_email_access(order)
+            send_email_access(order)
 
-                return redirect(reverse(
-                    "benefit:home") + f"?paid=True&status={request.POST.get('order_status')}&{signature == request.POST.get('signature')}")
+            return redirect(reverse(
+                "benefit:home") + f"?paid=True&status={request.POST.get('order_status')}&{signature == request.POST.get('signature')}")
 
         return redirect(reverse(
             "benefit:home") + f"?failure=True&status={request.POST.get('order_status')}&{signature == request.POST.get('signature')}")
