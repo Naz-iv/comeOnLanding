@@ -228,6 +228,6 @@ class PayCallbackView(View):
 
             send_email_access(order)
 
-            return redirect(reverse("benefit:home") + "?paid=True" + f"&status={order_status}")
+            return redirect(reverse("benefit:home") + f"?paid=True&status={order_status}")
 
-        return redirect(reverse("benefit:home") + "?failure=True" + f"&status={order_status}")
+        return redirect(reverse("benefit:home") + f"?failure=True&status={order_status}")
