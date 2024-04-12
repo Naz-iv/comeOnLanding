@@ -220,7 +220,7 @@ class PayCallbackView(View):
             [order.order_id,
              f"Оплата за курс BeneFit: {order.tier}",
              "UAH",
-             int(order.price) * 100,
+             str(int(order.price) * 100),
              settings.FONDY_MERCHANT_ID + "|" + settings.FONDY_MERCHANT_SECRET_KEY]
         ))
 
