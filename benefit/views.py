@@ -1,8 +1,11 @@
 import requests
+import hashlib
+
 from datetime import datetime
 from liqpay import LiqPay
 from uuid import uuid4
 from urllib.parse import urljoin
+from cloudipsp import Api, Checkout
 
 from django.views import View
 from django.views.generic import TemplateView
@@ -24,7 +27,6 @@ from .forms import OrderForm
 
 
 def index(request: HttpRequest, **kwargs) -> HttpResponse:
-
     sold_base = cache.get("base_count", 0)
     sold_extended = cache.get("extended_count", 0)
 
@@ -54,6 +56,7 @@ def agreement(request: HttpRequest, **kwargs) -> HttpResponse:
     return render(request, template_name="includes/agreement.html")
 
 
+# Liqpay payment algorithm
 def pay(order: Order) -> str | None:
     liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
     params = {
@@ -85,6 +88,54 @@ def pay(order: Order) -> str | None:
         print("Exception occurred", str(e))
 
 
+# Fondy payment algorithm
+def pay_fondy(order: Order) -> str | None:
+    # params = {
+    #     "order_id": f"{order.order_id}",
+    #     "order_desc": f"Оплата за курс BeneFit: {order.tier}",
+    #     "currency": "UAH",
+    #     "amount": "1",
+    #     "signature": "df38818facfbfd79953fa847667dac73a1291127",
+    #     "merchant_id": "1396424"
+    # }
+    #
+    # merchant_password = settings.FONDY_MERCHANT_PASSWORD
+    #
+    # concatenated_string = "|".join(sorted(
+    #     [params["order_id"], params["order_desc"], params["currency"], params["amount"],
+    #      params["merchant_id"]])) + "|" + merchant_password
+    #
+    # # Calculate SHA1 hash
+    # signature = hashlib.sha1(concatenated_string.encode()).hexdigest()
+    #
+    # # Update the params dictionary with the generated signature
+    # params["signature"] = signature
+    #
+    # try:
+    #     response = requests.post(url="https://pay.fondy.eu/api/checkout/url/", data=params)
+    #     if response.status_code == 200:
+    #         print(response.url)
+    #         return response.url
+    #     else:
+    #         print("Something went wrong")
+    #         return
+    # except Exception() as e:
+    #
+    #     print("Exception occurred", str(e))
+    price = int(order.price) * 100
+    api = Api(merchant_id=1396424, secret_key="test")
+    checkout = Checkout(api=api)
+    data = {
+        "order_id": f"{order.order_id}",
+        "order_desc": f"Оплата за курс BeneFit: {order.tier}",
+        "currency": "UAH",
+        "amount": price,
+        "response_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
+        "server_callback_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
+    }
+    return checkout.url(data).get("checkout_url")
+
+
 def send_email_access(order: Order) -> None:
     access_url = settings.ACCESS_URL_EXTENDED if order.tier == "Бенефітище" else settings.ACCESS_URL_BASE
     html_message = render_to_string(
@@ -103,8 +154,8 @@ def send_email_access(order: Order) -> None:
 
 
 class PayView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        return redirect(reverse_lazy("benefit:home"))
+    # def get(self, request, *args, **kwargs):
+    #     return redirect(reverse_lazy("benefit:home"))
 
     def post(self, request, *args, **kwargs):
         form = OrderForm(request.POST)
@@ -129,14 +180,16 @@ class PayView(TemplateView):
             order = Order.objects.create(
                 price=price, order_id=uuid4(), **form.cleaned_data
             )
-            return redirect(pay(order))
+            return redirect(pay_fondy(order))
         else:
             return render(request, "home.html", {"form": form, "invalid": True})
 
 
+# Liqpay callback view
 @method_decorator(csrf_exempt, name="dispatch")
 class PayCallbackView(View):
     def post(self, request, *args, **kwargs):
+        print("Got responce form server")
         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
         data = request.POST.get("data")
         signature = request.POST.get("signature")
