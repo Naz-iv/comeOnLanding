@@ -192,6 +192,7 @@ class PayView(TemplateView):
 #
 #         return redirect(reverse("benefit:home") + "?failure=True")
 
+
 # Fondy callback view
 @method_decorator(csrf_exempt, name="dispatch")
 class PayCallbackView(View):
@@ -206,7 +207,7 @@ class PayCallbackView(View):
             send_email_access(order)
 
             return redirect(reverse(
-                "benefit:home") + f"?paid=True&status={request.POST.get('order_status')}&{signature == request.POST.get('signature')}")
+                "benefit:home") + "?paid=True")
 
         return redirect(reverse(
-            "benefit:home") + f"?failure=True&status={request.POST.get('order_status')}&{signature == request.POST.get('signature')}")
+            "benefit:home") + "?failure=True")
