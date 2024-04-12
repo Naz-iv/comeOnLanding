@@ -27,8 +27,8 @@ from .forms import OrderForm
 
 
 def index(request: HttpRequest, **kwargs) -> HttpResponse:
-    sold_base = cache.get("base_count", 0)
-    sold_extended = cache.get("extended_count", 0)
+    sold_base = cache.get("base_count", Order.objects.filter(tier="Бенефітик").count())
+    sold_extended = cache.get("extended_count", Order.objects.filter(tier="Бенефітище").count())
 
     context = {
         "form": OrderForm(),
