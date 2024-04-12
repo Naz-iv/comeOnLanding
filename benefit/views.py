@@ -70,7 +70,6 @@ def pay(order: Order) -> str | None:
         "language": "uk",
         "sandbox": 1,  # sandbox mode, set to 1 to enable it
         "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
-        # url to callback view
     }
 
     params = {
@@ -97,7 +96,6 @@ def get_fondy_signature(order: Order) -> str:
          settings.FONDY_MERCHANT_ID + "|" + settings.FONDY_MERCHANT_SECRET_KEY]
     ))
 
-    # Calculate SHA1 hash
     return hashlib.sha1(concatenated_string.encode()).hexdigest()
 
 
@@ -136,8 +134,8 @@ def send_email_access(order: Order) -> None:
 
 
 class PayView(TemplateView):
-    # def get(self, request, *args, **kwargs):
-    #     return redirect(reverse_lazy("benefit:home"))
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse_lazy("benefit:home"))
 
     def post(self, request, *args, **kwargs):
         form = OrderForm(request.POST)
