@@ -123,7 +123,7 @@ def pay_fondy(order: Order) -> str | None:
     #
     #     print("Exception occurred", str(e))
     price = int(order.price) * 100
-    api = Api(merchant_id=1396424, secret_key="test")
+    api = Api(merchant_id=settings.FONDY_MERCHANT_ID, secret_key=settings.FONDY_MERCHANT_SECRET_KEY)
     checkout = Checkout(api=api)
     data = {
         "order_id": f"{order.order_id}",
@@ -214,20 +214,26 @@ class PayView(TemplateView):
 @method_decorator(csrf_exempt, name="dispatch")
 class PayCallbackView(View):
     def post(self, request, *args, **kwargs):
-        print("Got responce form server")
-        print(request.POST)
-        order_id = request.POST.get("order_id")
-        order_status = request.POST.get("order_status")
-        order = get_object_or_404(Order, order_id=order_id)
+        order = get_object_or_404(Order, order_id=request.POST.get("order_id"))
 
+        concatenated_string = "|".join(sorted(
+            order.order_id,
+            f"Оплата за курс BeneFit: {order.tier}",
+            "UAH",
+            int(order.price) * 100,
+            settings.FONDY_MERCHANT_ID + "|" + settings.FONDY_MERCHANT_SECRET_KEY
+        ))
+
+        # Calculate SHA1 hash
+        signature = hashlib.sha1(concatenated_string.encode()).hexdigest()
         # TODO: Change status to success when testing in production
-        print(order_status)
-        if order_status == "approved":
-            order.payment_status = "paid"
-            order.save()
+        if signature == request.POST.get("signature"):
+            if request.POST.get("order_status") == "approved":
+                order.payment_status = "paid"
+                order.save()
 
-            send_email_access(order)
+                send_email_access(order)
 
-            return redirect(reverse("benefit:home") + f"?paid=True&status={order_status}")
+                return redirect(reverse("benefit:home") + f"?paid=True&status={order_status}&{signature == request.POST.get('signature')}")
 
-        return redirect(reverse("benefit:home") + f"?failure=True&status={order_status}")
+        return redirect(reverse("benefit:home") + f"?failure=True&status={order_status}&{signature == request.POST.get('signature')}")
