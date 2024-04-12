@@ -132,9 +132,9 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "example@gmail.com")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "STRONG_PASSWORD")
 
 # Access url for subscribers
-ACCESS_URL_BASE = os.getenv("ACCESS_URL_BASE", "https://hushed-amphibian-f3f.notion.site/BeneFit-5c8a5e9c0bac4134b0078279e6b11529")
-ACCESS_URL_EXTENDED = os.getenv("ACCESS_URL_EXTENDED", "https://hushed-amphibian-f3f.notion.site/BeneFit-eec918052cad4b4a98100dfb5024a60d")
-TELEGRAM_URL = os.getenv("TELEGRAM_CHAT_URL", "https://t.me/+z7YnkHs2WwcxYTQy")
+ACCESS_URL_BASE = os.getenv("ACCESS_URL_BASE", "https://www.youtube.com/")
+ACCESS_URL_EXTENDED = os.getenv("ACCESS_URL_EXTENDED", "https://www.youtube.com/")
+TELEGRAM_URL = os.getenv("TELEGRAM_CHAT_URL", "https://www.youtube.com/")
 
 # Cache configurations
 CACHES = {
