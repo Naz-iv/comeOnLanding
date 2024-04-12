@@ -24,9 +24,9 @@
           </p>
 
 
-          <h3 class="block-heading has-foreground-color has-text-color has-link-color has-x-large-font-size elements-74404d736221a0f2aa7901986ef461b8">
+          <h3 class="block-heading has-foreground-color has-text-color has-link-color has-x-large-font-size has-text-align-center">
             {% if  sold_extended < start_amount %}
-              <p><span class="old-price"><strong>{{ extended_price_end }} грн</strong></span>          <span class="discounted-price"><strong>{{ extended_price_start }} грн</strong></span></p>
+              <p><span class="old-price"><strong>{{ extended_price_end }} грн</strong></span><br><span class="discounted-price"><strong>{{ extended_price_start }} грн</strong></span></p>
             {% else %}
               <p><span class="discounted-price"><strong>{{ extended_price_start }} грн</strong></span></p>
             {% endif %}
@@ -71,9 +71,9 @@
           </p>
 
 
-          <h3 class="block-heading has-foreground-color has-text-color has-link-color has-x-large-font-size elements-74404d736221a0f2aa7901986ef461b8">
+          <h3 class="block-heading has-foreground-color has-text-color has-link-color has-x-large-font-size has-text-align-center">
             {% if  sold_base < start_amount %}
-              <p><span class="old-price"><strong>{{ base_price_end }} грн</strong></span>          <span class="discounted-price"><strong>{{ base_price_start }} грн</strong></span></p>
+              <p><span class="old-price"><strong>{{ base_price_end }} грн</strong></span><br><span class="discounted-price"><strong>{{ base_price_start }} грн</strong></span></p>
             {% else %}
               <p><span class="discounted-price"><strong>{{ base_price_start }} грн</strong></span></p>
             {% endif %}
