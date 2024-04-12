@@ -145,7 +145,8 @@ class PayCallbackView(View):
             order = get_object_or_404(Order, order_id=response.get("order_id"))
 
             # TODO: Change status to success when testing in production
-            if response["status"] == "sandbox":
+            print(response["status"])
+            if response["status"] == "success":
                 order.payment_status = "paid"
                 order.save()
 

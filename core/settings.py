@@ -125,7 +125,7 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "example@gmail.com")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "STRONG_PASSWORD")
 
 # Access url for subscribers
-ACCESS_URL = os.getenv("ACCESS_UTL", "https://www.youtube.com/")
+ACCESS_URL = os.getenv("ACCESS_URL", "https://www.youtube.com/")
 TELEGRAM_URL = os.getenv("TELEGRAM_CHAT_URL", "https://t.me/+z7YnkHs2WwcxYTQy")
 
 # Cache configurations
