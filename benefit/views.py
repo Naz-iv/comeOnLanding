@@ -86,9 +86,10 @@ def pay(order: Order) -> str | None:
 
 
 def send_email_access(order: Order) -> None:
+    access_url = settings.ACCESS_URL_EXTENDED if order.tier == "Бенефітище" else settings.ACCESS_URL_BASE
     html_message = render_to_string(
         "communication/email.html",
-        {"recipient_name": order.fullname, "url": settings.ACCESS_URL, "tier": order.tier, "telegram_url": settings.TELEGRAM_URL}
+        {"recipient_name": order.fullname, "url": access_url, "tier": order.tier, "telegram_url": settings.TELEGRAM_URL}
     )
 
     send_mail(
