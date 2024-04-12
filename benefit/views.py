@@ -217,11 +217,11 @@ class PayCallbackView(View):
         order = get_object_or_404(Order, order_id=request.POST.get("order_id"))
 
         concatenated_string = "|".join(sorted(
-            order.order_id,
-            f"Оплата за курс BeneFit: {order.tier}",
-            "UAH",
-            int(order.price) * 100,
-            settings.FONDY_MERCHANT_ID + "|" + settings.FONDY_MERCHANT_SECRET_KEY
+            [order.order_id,
+             f"Оплата за курс BeneFit: {order.tier}",
+             "UAH",
+             int(order.price) * 100,
+             settings.FONDY_MERCHANT_ID + "|" + settings.FONDY_MERCHANT_SECRET_KEY]
         ))
 
         # Calculate SHA1 hash
@@ -234,6 +234,8 @@ class PayCallbackView(View):
 
                 send_email_access(order)
 
-                return redirect(reverse("benefit:home") + f"?paid=True&status={order_status}&{signature == request.POST.get('signature')}")
+                return redirect(reverse(
+                    "benefit:home") + f"?paid=True&status={order_status}&{signature == request.POST.get('signature')}")
 
-        return redirect(reverse("benefit:home") + f"?failure=True&status={order_status}&{signature == request.POST.get('signature')}")
+        return redirect(reverse(
+            "benefit:home") + f"?failure=True&status={order_status}&{signature == request.POST.get('signature')}")
