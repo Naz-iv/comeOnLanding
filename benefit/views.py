@@ -87,35 +87,6 @@ def pay(order: Order) -> str | None:
         print("Exception occurred", str(e))
 
 
-def get_fondy_signature(order: Order) -> str:
-    concatenated_string = "|".join(sorted(
-        [str(order.order_id),
-         f"Оплата за курс BeneFit: {order.tier}",
-         "UAH",
-         str(int(order.price) * 100),
-         settings.FONDY_MERCHANT_ID + "|" + settings.FONDY_MERCHANT_SECRET_KEY]
-    ))
-
-    return hashlib.sha1(concatenated_string.encode()).hexdigest()
-
-
-# Fondy payment algorithm
-def pay_fondy(order: Order) -> str | None:
-    price = int(order.price) * 100
-    api = Api(merchant_id=settings.FONDY_MERCHANT_ID, secret_key=settings.FONDY_MERCHANT_SECRET_KEY)
-    checkout = Checkout(api=api)
-
-    data = {
-        "order_id": f"{order.order_id}",
-        "order_desc": f"Оплата за курс BeneFit: {order.tier}",
-        "currency": "UAH",
-        "amount": price,
-        "response_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
-        "server_callback_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
-    }
-    return checkout.url(data).get("checkout_url")
-
-
 def send_email_access(order: Order) -> None:
     access_url = settings.ACCESS_URL_EXTENDED if order.tier == "Бенефітище" else settings.ACCESS_URL_BASE
     html_message = render_to_string(
@@ -160,52 +131,32 @@ class PayView(TemplateView):
             order = Order.objects.create(
                 price=price, order_id=uuid4(), **form.cleaned_data
             )
-            return redirect(pay_fondy(order))
+            return redirect(pay(order))
         else:
             return render(request, "home.html", {"form": form, "invalid": True})
 
 
 # Liqpay callback view
-# @method_decorator(csrf_exempt, name="dispatch")
-# class PayCallbackView(View):
-#     def post(self, request, *args, **kwargs):
-#         print("Got responce form server")
-#         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
-#         data = request.POST.get("data")
-#         signature = request.POST.get("signature")
-#         sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
-#         if sign == signature:
-#             response = liqpay.decode_data_from_str(data)
-#             order = get_object_or_404(Order, order_id=response.get("order_id"))
-#
-#             # TODO: Change status to success when testing in production
-#             print(response["status"])
-#             if response["status"] == "sandbox":
-#                 order.payment_status = "paid"
-#                 order.save()
-#
-#                 send_email_access(order)
-#
-#                 return redirect(reverse("benefit:home") + "?paid=True")
-#
-#         return redirect(reverse("benefit:home") + "?failure=True")
-
-
-# Fondy callback view
 @method_decorator(csrf_exempt, name="dispatch")
 class PayCallbackView(View):
     def post(self, request, *args, **kwargs):
-        order = get_object_or_404(Order, order_id=request.POST.get("order_id"))
+        print("Got responce form server")
+        liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
+        data = request.POST.get("data")
+        signature = request.POST.get("signature")
+        sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
+        if sign == signature:
+            response = liqpay.decode_data_from_str(data)
+            order = get_object_or_404(Order, order_id=response.get("order_id"))
 
-        # TODO: Change status to success when testing in production
-        if request.POST.get("order_status") == "approved":
-            order.payment_status = "paid"
-            order.save()
+            # TODO: Change status to success when testing in production
+            print(response["status"])
+            if response["status"] == "sandbox":
+                order.payment_status = "paid"
+                order.save()
 
-            send_email_access(order)
+                send_email_access(order)
 
-            return redirect(reverse(
-                "benefit:home") + "?paid=True")
+                return redirect(reverse("benefit:home") + "?paid=True")
 
-        return redirect(reverse(
-            "benefit:home") + "?failure=True")
+        return redirect(reverse("benefit:home") + "?failure=True")
