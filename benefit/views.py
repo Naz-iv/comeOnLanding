@@ -68,7 +68,6 @@ def pay(order: Order) -> str | None:
         "order_id": f"{order.order_id}",
         "version": "3",
         "language": "uk",
-        "sandbox": 1,  # sandbox mode, set to 1 to enable it
         "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
     }
 
@@ -140,7 +139,6 @@ class PayView(TemplateView):
 @method_decorator(csrf_exempt, name="dispatch")
 class PayCallbackView(View):
     def post(self, request, *args, **kwargs):
-        print("Got responce form server")
         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
         data = request.POST.get("data")
         signature = request.POST.get("signature")
@@ -149,9 +147,7 @@ class PayCallbackView(View):
             response = liqpay.decode_data_from_str(data)
             order = get_object_or_404(Order, order_id=response.get("order_id"))
 
-            # TODO: Change status to success when testing in production
-            print(response["status"])
-            if response["status"] == "sandbox":
+            if response["status"] == "success":
                 order.payment_status = "paid"
                 order.save()
 
