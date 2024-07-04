@@ -26,6 +26,9 @@ from .models import Order
 from .forms import OrderForm
 
 
+def home(request: HttpRequest, **kwargs) -> HttpResponse:
+    return render(request, template_name="index.html")
+
 def index(request: HttpRequest, **kwargs) -> HttpResponse:
     sold_base = cache.get("base_count", Order.objects.filter(tier="Бенефітик").count())
     sold_extended = cache.get("extended_count", Order.objects.filter(tier="Бенефітище").count())

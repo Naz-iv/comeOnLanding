@@ -1,0 +1,67 @@
+{% load static %}
+<html lang="uk" data-lt-installed="true">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>BeneFit</title>
+  <link rel="stylesheet"
+        href="{% static 'css/dashboard_min.css' %}">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'css/navigation.css' %}" rel="stylesheet">
+  <link href="{% static 'css/cover.css' %}" rel="stylesheet">
+  <link href="{% static 'css/_static.css' %}" rel="stylesheet">
+  <link href="{% static 'css/global.css' %}" rel="stylesheet">
+  <link href="{% static 'css/form.css' %}" rel="stylesheet">
+
+  <script type="text/javascript"
+          src="{% static 'js/_static.js' %}"></script>
+
+  <!-- End Jetpack Open Graph Tags -->
+  <link rel="icon" href="{% static 'icons/benefit.png' %}" sizes="32x32">
+  <link rel="icon" href="{% static 'icons/benefit.png' %}" sizes="192x192">
+  <link rel="apple-touch-icon" href="{% static 'icons/benefit' %}">
+  <script src="{% static 'js/actionbar.js' %}" defer=""></script>
+  <link rel="stylesheet" id="gravatar-card-css" href="{% static 'css/hovercard.css' %}">
+  <link href="{% static 'css/actionbar.css' %}" rel="stylesheet">
+</head>
+<body>
+<main class="block-group is-layout-flow container-core-group-is-layout-47 block-group-is-layout-flow"
+      id="-skip-link--target">
+  <div class="block-group alignfull is-layout-flow block-group-is-layout-flow"
+       style="margin-top:0;margin-bottom:0; height: 92%">
+    <div class="block-cover alignfull is-light"
+         style="padding-top:var(--preset--spacing--50);padding-right:var(--preset--spacing--50);padding-bottom:var(--preset--spacing--50);padding-left:var(--preset--spacing--50);min-height:730px">
+      <span aria-hidden="true" class="block-cover__background has-background-dim-0 has-background-dim"></span><img
+        class="block-cover__image-background image-1640" alt="" src="/static/images/home.png"
+        style="object-position:27% 60%; top: -10%; opacity: 15%">
+      <div class="block-cover__inner-container is-layout-flow block-cover-is-layout-flow center">
+        <div class="block-group has-global-padding">
+          <div
+              class="block-columns aligncenter is-layout-flex container-core-columns-is-layout-1 block-columns-is-layout-flex is-content-justification-center">
+            <div class="block-column is-layout-flow block-column-is-layout-flow">
+
+              <div class="block-buttons is-layout-flex block-buttons-is-layout-flex items-justified-center">
+                <div class="block-button has-custom-width start-button">
+                  <a class="block-button__link element-button has-foreground-color" href="{% url 'benefit:home' %}"
+                     style="padding-top: 16px; padding-bottom: 16px">Танцюй i Худни
+                  </a>
+                </div>
+              </div>
+              <br>
+              <div class="block-buttons is-layout-flex block-buttons-is-layout-flex items-justified-center">
+                <div class="block-button has-custom-width start-button">
+                  <a class="block-button__link element-button has-foreground-color" href="{% url 'benefit:home' %}"
+                     style="padding-top: 16px; padding-bottom: 16px">BeneFit
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>
