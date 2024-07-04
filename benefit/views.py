@@ -1,29 +1,28 @@
 import requests
 import hashlib
-
-from datetime import datetime
-from liqpay import LiqPay
+import hmac
 from uuid import uuid4
 from urllib.parse import urljoin
-from cloudipsp import Api, Checkout
+from bs4 import BeautifulSoup
 
 from django.views import View
 from django.views.generic import TemplateView
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404, reverse
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpResponse, HttpRequest
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.urls import reverse_lazy
-from django.utils import timezone
-from django.forms import Form
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.core.cache import cache
 
 from .models import Order
 from .forms import OrderForm
+
+WAYFORPAY_MERCHANT_ACCOUNT = "test_merch_n1"
+WAYFORPAY_SECRET_KEY = "flk3409refn54t54t*FNJRET"
+WAYFORPAY_API_URL = "https://secure.wayforpay.com/pay"
 
 
 def index(request: HttpRequest, **kwargs) -> HttpResponse:
@@ -56,34 +55,44 @@ def agreement(request: HttpRequest, **kwargs) -> HttpResponse:
     return render(request, template_name="includes/agreement.html")
 
 
-# Liqpay payment algorithm
-def pay(order: Order) -> str | None:
-    liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
-    params = {
-        "action": "pay",
-        "amount": f"{order.price}",
-        "currency": "UAH",
-        "description": f"Оплата за курс BeneFit: {order.tier}",
-        "paytypes": "apay privat24",
-        "order_id": f"{order.order_id}",
-        "version": "3",
-        "language": "uk",
-        "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
-    }
+def generate_signature(data: dict):
+    data_list = [
+        data.get("merchantAccount"),
+        data.get("merchantDomainName", "https://befit-pgfb.onrender.com/"),
+        data.get("orderReference"),
+        data.get("orderDate", ""),
+        data.get("amount"),
+        data.get("currency"),
+        data.get("productName", ["Order"])[0],
+        data.get("productCount", ["1"])[0],
+        data.get("productPrice", ["490"])[0]
+    ]
+    signature_string = ";".join(map(str, data_list))
 
-    params = {
-        "signature": liqpay.cnb_signature(params),
-        "data": liqpay.cnb_data(params)
+    print(signature_string.encode("utf-8"))
+
+    return hmac.new(";".join(map(str, data_list)).encode('utf-8'), WAYFORPAY_SECRET_KEY.encode('utf-8'), hashlib.md5).hexdigest()
+
+
+# Wayforpay payment algorithm
+def pay(order: Order):
+    payment_data = {
+        "merchantAccount": WAYFORPAY_MERCHANT_ACCOUNT,
+        "orderReference": str(order.order_id),
+        "merchantDomainName": "https://befit-pgfb.onrender.com/",
+        "amount": str(order.price),
+        "currency": "UAH",
+        "orderDate": str(int(order.datetime.timestamp())),
+        "productName": ["Order"],
+        "productCount": [1],
+        "productPrice": ["490"],
+        "returnUrl": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
+        "serviceUrl": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
     }
-    try:
-        response = requests.post(url="https://www.liqpay.ua/api/3/checkout", data=params)
-        if response.status_code == 200:
-            return response.url
-        else:
-            print("Something went wrong")
-            return
-    except Exception() as e:
-        print("Exception occurred", str(e))
+    order.signature = generate_signature(payment_data)
+    order.save()
+    payment_data["merchantSignature"] = order.signature
+    return payment_data
 
 
 def send_email_access(order: Order) -> None:
@@ -130,24 +139,33 @@ class PayView(TemplateView):
             order = Order.objects.create(
                 price=price, order_id=uuid4(), **form.cleaned_data
             )
-            return redirect(pay(order))
+            payment_data = pay(order)
+            if payment_data:
+                return render(
+                    request, "includes/wayforpay_form.html",
+                    {"payment_data": payment_data, "WAYFORPAY_API_URL": WAYFORPAY_API_URL}
+                )
+            else:
+                return render(request, "home.html", {"form": form, "invalid": True})
         else:
             return render(request, "home.html", {"form": form, "invalid": True})
 
 
-# Liqpay callback view
+# Wayforpay callback view
 @method_decorator(csrf_exempt, name="dispatch")
 class PayCallbackView(View):
     def post(self, request, *args, **kwargs):
-        liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
-        data = request.POST.get("data")
-        signature = request.POST.get("signature")
-        sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
-        if sign == signature:
-            response = liqpay.decode_data_from_str(data)
-            order = get_object_or_404(Order, order_id=response.get("order_id"))
+        data = request.POST.dict()
 
-            if response["status"] == "success":
+        for key, value in data.items():
+            print(key, value)
+        received_signature = data.pop("merchantSignature", "")
+
+        order = get_object_or_404(Order, order_id=data.get("orderReference"))
+
+        if received_signature == order.signature:
+
+            if data["transactionStatus"] == "Approved":
                 order.payment_status = "paid"
                 order.save()
 
@@ -155,4 +173,4 @@ class PayCallbackView(View):
 
                 return redirect(reverse("benefit:home") + "?paid=True")
 
-        return redirect(reverse("benefit:home") + "?failure=True")
+        return redirect(reverse_lazy("benefit:home") + "?failure=True")

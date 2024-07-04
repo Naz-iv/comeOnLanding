@@ -19,6 +19,7 @@ class Order(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=63)
     fullname = models.CharField(max_length=63)
+    signature = models.CharField(max_length=63, null=True)
     payment_status = models.CharField(
         max_length=31,
         choices=(

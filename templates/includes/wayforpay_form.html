@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="En">
+<head>
+    <title>Wayforpay Payment</title>
+</head>
+<body>
+    <form id="wayforpay_form" method="POST" action="{{ WAYFORPAY_API_URL }}">
+        {% for key, value in payment_data.items %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+    </form>
+    <script type="text/javascript">
+        document.getElementById('wayforpay_form').submit();
+    </script>
+</body>
+</html>
