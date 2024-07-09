@@ -1528,7 +1528,6 @@ h6 {
 }
 
 .element-button:focus, .block-button__link:focus {
-    background-color: var(--preset--color--foreground);
     color: var(--preset--color--background);
     outline-color: var(--preset--color--primary);
     outline-offset: 2px;
@@ -2804,16 +2803,14 @@ h6 {
 
 .me-block {
     display: flex;
-    flex-direction: row;
-!important;
+    flex-direction: row;!important;
     justify-content: center;
     align-items: center;
 }
 
 @media only screen and (max-width: 768px) {
     .me-block {
-        flex-direction: column;
-    !important;
+        flex-direction: column;!important;
 
     }
 }

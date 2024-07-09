@@ -5,9 +5,9 @@ from .views import index, home, agreement, PayView, PayCallbackView
 urlpatterns = [
     path("", home, name="start"),
     path("benefit/", index, name="home"),
-    path("agreement/", agreement, name="agreement"),
-    path("pay/", PayView.as_view(), name="pay_view"),
-    path("pay-callback/", PayCallbackView.as_view(), name="pay_callback"),
+    path("benefit/agreement/", agreement, name="agreement"),
+    path("benefit/pay/", PayView.as_view(), name="pay_view"),
+    path("benefit/pay-callback/", PayCallbackView.as_view(), name="pay_callback"),
 ]
 
 app_name = "benefit"

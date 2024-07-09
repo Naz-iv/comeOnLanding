@@ -22,16 +22,13 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.core.cache import cache
 
-from .models import Order
+from .models import OrderTIH
 from .forms import OrderForm
 
 
-def home(request: HttpRequest, **kwargs) -> HttpResponse:
-    return render(request, template_name="index.html")
-
 def index(request: HttpRequest, **kwargs) -> HttpResponse:
-    sold_base = cache.get("base_count", Order.objects.filter(tier="Бенефітик").count())
-    sold_extended = cache.get("extended_count", Order.objects.filter(tier="Бенефітище").count())
+    sold_base = cache.get("base_count", OrderTIH.objects.filter(tier="Бенефітик").count())
+    sold_extended = cache.get("extended_count", OrderTIH.objects.filter(tier="Бенефітище").count())
 
     context = {
         "form": OrderForm(),
@@ -52,26 +49,26 @@ def index(request: HttpRequest, **kwargs) -> HttpResponse:
     if failure:
         context["failure"] = failure
 
-    return render(request, template_name="benefit/home.html", context=context)
+    return render(request, template_name="tih/home.html", context=context)
 
 
 def agreement(request: HttpRequest, **kwargs) -> HttpResponse:
-    return render(request, template_name="includes/agreement.html")
+    return render(request, template_name="tih/includes/agreement.html")
 
 
 # Liqpay payment algorithm
-def pay(order: Order) -> str | None:
+def pay(order: OrderTIH) -> str | None:
     liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
     params = {
         "action": "pay",
         "amount": f"{order.price}",
         "currency": "UAH",
-        "description": f"Оплата за курс BeneFit: {order.tier}",
+        "description": f"Оплата за курс Танцюй і Худни: {order.tier}",
         "paytypes": "apay privat24",
         "order_id": f"{order.order_id}",
         "version": "3",
         "language": "uk",
-        "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("benefit:pay_callback"))),
+        "result_url": urljoin(settings.REDIRECT_DOMAIN, str(reverse_lazy("tih:pay_callback"))),
     }
 
     params = {
@@ -89,15 +86,15 @@ def pay(order: Order) -> str | None:
         print("Exception occurred", str(e))
 
 
-def send_email_access(order: Order) -> None:
+def send_email_access(order: OrderTIH) -> None:
     access_url = settings.ACCESS_URL_EXTENDED if order.tier == "Бенефітище" else settings.ACCESS_URL_BASE
     html_message = render_to_string(
-        "communication/email.html",
+        "tih/communication/email.html",
         {"recipient_name": order.fullname, "url": access_url, "tier": order.tier, "telegram_url": settings.TELEGRAM_URL}
     )
 
     send_mail(
-        subject=f"Підписка BeneFit {order.tier}",
+        subject=f"Підписка Танцюй і Худни {order.tier}",
         message="",
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[order.email],
@@ -108,15 +105,15 @@ def send_email_access(order: Order) -> None:
 
 class PayView(TemplateView):
     def get(self, request, *args, **kwargs):
-        return redirect(reverse_lazy("benefit:home"))
+        return redirect(reverse_lazy("tih:home"))
 
     def post(self, request, *args, **kwargs):
         form = OrderForm(request.POST)
         if form.is_valid():
             tier = form.cleaned_data.get("tier", "Бенефітик")
 
-            sold_base = cache.get("base_count", Order.objects.filter(tier="Бенефітик").count())
-            sold_extended = cache.get("extended_count", Order.objects.filter(tier="Бенефітище").count())
+            sold_base = cache.get("base_count", OrderTIH.objects.filter(tier="Бенефітик").count())
+            sold_extended = cache.get("extended_count", OrderTIH.objects.filter(tier="Бенефітище").count())
             price = settings.BASE_TIER_START
 
             if tier == "Бенефітик":
@@ -130,12 +127,12 @@ class PayView(TemplateView):
                 else:
                     price = settings.EXTENDED_TIER_END
 
-            order = Order.objects.create(
+            order = OrderTIH.objects.create(
                 price=price, order_id=uuid4(), **form.cleaned_data
             )
             return redirect(pay(order))
         else:
-            return render(request, "home.html", {"form": form, "invalid": True})
+            return render(request, "tih/home.html", {"form": form, "invalid": True})
 
 
 # Liqpay callback view
@@ -148,7 +145,7 @@ class PayCallbackView(View):
         sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
         if sign == signature:
             response = liqpay.decode_data_from_str(data)
-            order = get_object_or_404(Order, order_id=response.get("order_id"))
+            order = get_object_or_404(OrderTIH, order_id=response.get("order_id"))
 
             if response["status"] == "success":
                 order.payment_status = "paid"
@@ -156,6 +153,6 @@ class PayCallbackView(View):
 
                 send_email_access(order)
 
-                return redirect(reverse("benefit:home") + "?paid=True")
+                return redirect(reverse("tih:home") + "?paid=True")
 
-        return redirect(reverse("benefit:home") + "?failure=True")
+        return redirect(reverse("tih:home") + "?failure=True")

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>BeneFit</title>
+  <title>Танцюй і Худни</title>
   <link rel="stylesheet"
         href="{% static 'css/dashboard_min.css' %}">
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
@@ -29,9 +29,9 @@
 <body>
 <div id="home" class="site-blocks">
   {% block header %}
-    {% include "includes/header.html" %}
+    {% include "tih/includes/header.html" %}
     {% if  expiry_date %}
-      {% include "includes/offer.html" %}
+      {% include "tih/includes/offer.html" %}
     {% endif %}
   {% endblock %}
 
@@ -52,7 +52,7 @@
               <div class="block-column is-layout-flow block-column-is-layout-flow">
                 <h1 class="block-heading margin-bottom-half has-text-color"
                     style="color:#151515;font-weight:bold; font-size:clamp(28px, 1.802rem + ((1.5vw - 2.2px) * 2.405), 80px);line-height:1.4; padding: 0 10px 5px 0">
-                  BeneFit</h1>
+                  Танцюй і Худни</h1>
 
 
                 <p class="margin-top-half has-text-color"
@@ -75,43 +75,43 @@
     </div>
 
     {% block why %}
-      {% include "main/why.html" %}
+      {% include "tih/main/why.html" %}
     {% endblock %}
 
     {% block about %}
-      {% include "main/about.html" %}
+      {% include "tih/main/about.html" %}
     {% endblock %}
 
     {% block program %}
-      {% include "main/program.html" %}
+      {% include "tih/main/program.html" %}
     {% endblock %}
 
     {% block plans %}
-      {% include "main/plans.html" %}
+      {% include "tih/main/plans.html" %}
     {% endblock %}
 
     {% block form %}
-      {% include "main/form.html" %}
+      {% include "tih/main/form.html" %}
     {% endblock %}
 
     {% if paid or failure %}
       {% block payment_confirmation %}
-        {% include "main/payment_confirmation.html" %}
+        {% include "tih/main/payment_confirmation.html" %}
       {% endblock %}
     {% endif %}
 
     {% block me %}
-      {% include "main/me.html" %}
+      {% include "tih/main/me.html" %}
     {% endblock %}
 
     {% block faq %}
-      {% include "main/faq.html" %}
+      {% include "tih/main/faq.html" %}
     {% endblock %}
 
   </main>
 
   {% block footer %}
-    {% include "includes/footer.html" %}
+    {% include "tih/includes/footer.html" %}
   {% endblock %}
 
   <div class="block-group"></div>
