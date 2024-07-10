@@ -41,14 +41,8 @@ class OrderForm(forms.ModelForm):
 
         }
     )
-    tier = forms.CharField(
-        label="Тариф",
-        required=True,
-        widget=forms.TextInput(attrs={"class": "disabled"}),
-
-    )
 
     class Meta:
         model = OrderTIH
-        fields = ["fullname", "email", "phone", "tier"]
+        fields = ["fullname", "email", "phone"]
 

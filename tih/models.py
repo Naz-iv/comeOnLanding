@@ -8,14 +8,11 @@ class OrderTIH(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     price = models.IntegerField(
         choices=(
-            ("base_start", os.getenv("BASE_TIER_START", settings.BASE_TIER_START)),
-            ("top_start", os.getenv("TOP_TIER_START", settings.EXTENDED_TIER_START)),
-            ("base_end", os.getenv("BASE_TIER_END", settings.BASE_TIER_END)),
-            ("top_end", os.getenv("TOP_TIER_END", settings.EXTENDED_TIER_END))
+            ("tih_start", os.getenv("TIH_START", settings.TIH_START)),
+            ("tih_end", os.getenv("TIH_END", settings.TIH_END)),
         ),
-        default="base"
+        default="tih_end"
     )
-    tier = models.CharField(max_length=31)
     email = models.EmailField()
     phone = models.CharField(max_length=63)
     fullname = models.CharField(max_length=63)

@@ -4,7 +4,7 @@
 <div id="plans"
      class="block-group has-global-padding is-layout-constrained block-group-is-layout-constrained"
      style="margin-top:0;margin-bottom:0;padding-top:var(--preset--spacing--60);padding-right:var(--preset--spacing--50);padding-bottom:var(--preset--spacing--60);padding-left:var(--preset--spacing--50)">
-  <h2 class="block-heading has-text-align-center">Тарифні плани</h2>
+  <h2 class="block-heading has-text-align-center">Скільки це коштує?</h2>
   <br>
   {% if expiry_date %}
     {% include "tih/includes/offer.html" %}
@@ -20,33 +20,29 @@
         <div
             class="block-group has-primary-background-color has-background has-global-padding is-layout-constrained container-core-group-is-layout-22 block-group-is-layout-constrained"
             style="border-radius:8px;padding-top:var(--preset--spacing--60);padding-right:var(--preset--spacing--60);padding-bottom:var(--preset--spacing--60);padding-left:var(--preset--spacing--60);">
-          <p class="has-foreground-color has-text-color has-large-font-size has-text-align-center"><strong>Тариф<br>“Бенефітище“</strong>
+          <p class="has-foreground-color has-text-color has-large-font-size has-text-align-center"><strong>Танцюй і Худни</strong>
           </p>
 
 
           <h3 class="block-heading has-foreground-color has-text-color has-link-color has-x-large-font-size has-text-align-center">
-            {% if  sold_extended < start_amount %}
-              <p><span class="old-price"><strong>{{ extended_price_end }} грн</strong></span><br><span class="discounted-price"><strong>{{ extended_price_start }} грн</strong></span></p>
+            {% if  sold_base < start_amount %}
+              <p><span class="old-price"><strong>{{ price_end }} грн</strong></span><br><span class="discounted-price"><strong>{{ price_start }} грн</strong></span></p>
             {% else %}
-              <p><span class="discounted-price"><strong>{{ extended_price_start }} грн</strong></span></p>
+              <p><span class="discounted-price"><strong>{{ price_start }} грн</strong></span></p>
             {% endif %}
           </h3>
 
 
           <p class="has-foreground-color has-text-color has-link-color has-medium-font-size elements-272f31a695723fcf7713868f8342a78c">
-            Для тих, хто хоче доступу до курсу і трохи більше<br>Що входить?</p>
+            Що входить?</p>
 
 
           <ul style="padding-right:var(--preset--spacing--40);padding-left:var(--preset--spacing--40)"
               class="has-foreground-color has-text-color has-link-color elements-15142a5cf72d408041137522ef5f0db1">
-            <li style="margin-bottom: 10px;">9 тренувань в записі</li>
-            <li style="margin-bottom: 10px;">3 лекції в записі</li>
-            <li style="margin-bottom: 10px;">Доступ 6 тижнів</li>
-            <li style="margin-bottom: 10px;">Чат підтримки з учасницями і тренером</li>
-            <li style="margin-bottom: 10px;">Воркбук (календар курсу, відслідковування результатів, трекер тренувань,
-              відслідковування відчуттів і рівня підготовки)
-            </li>
-            <li style="margin-bottom: 10px;">Перевірка воркбука тренером</li>
+            <li style="margin-bottom: 10px;">6 тренувань під українські і світові хіти</li>
+            <li style="margin-bottom: 10px;">8 тижнів доступу</li>
+            <li style="margin-bottom: 10px;">чат комюніті спортіків</li>
+            <li style="margin-bottom: 10px;">лекція з харчування в подарунок</li>
           </ul>
 
 
@@ -55,53 +51,7 @@
             <div class="block-button has-custom-width block-button__width-100 is-style-fill responsive-button">
               <button
                   class="block-button__link has-background-color"
-                  onclick="openForm('Бенефітище')" style="background-color: #002409 !important; font-size: 120%">
-                Купити зараз
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div></div>
-
-        <div
-            class="block-group has-primary-background-color has-background has-global-padding is-layout-constrained container-core-group-is-layout-23 block-group-is-layout-constrained"
-            style="border-radius:8px;padding-top:var(--preset--spacing--60);padding-right:var(--preset--spacing--60);padding-bottom:var(--preset--spacing--60);padding-left:var(--preset--spacing--60)">
-          <p class="has-foreground-color has-text-color has-large-font-size has-text-align-center"><strong>Тариф<br>“Бенефітик“</strong>
-          </p>
-
-
-          <h3 class="block-heading has-foreground-color has-text-color has-link-color has-x-large-font-size has-text-align-center">
-            {% if  sold_base < start_amount %}
-              <p><span class="old-price"><strong>{{ base_price_end }} грн</strong></span><br><span class="discounted-price"><strong>{{ base_price_start }} грн</strong></span></p>
-            {% else %}
-              <p><span class="discounted-price"><strong>{{ base_price_start }} грн</strong></span></p>
-            {% endif %}
-          </h3>
-
-          <p class="has-foreground-color has-text-color has-link-color has-medium-font-size elements-272f31a695723fcf7713868f8342a78c">
-            Для тих, кому достатньо лише доступу до курсу<br>Що входить?</p>
-
-
-          <ul class="has-foreground-color has-text-color has-link-color elements-15142a5cf72d408041137522ef5f0db1"
-              style="padding-right: var(--preset--spacing--40); padding-left: var(--preset--spacing--40);">
-            <li style="margin-bottom: 10px;">9 тренувань в записі</li>
-            <li style="margin-bottom: 10px;">3 лекції в записі</li>
-            <li style="margin-bottom: 10px;">Доступ 6 тижнів</li>
-            <li style="margin-bottom: 10px;" class="crossed-text">Чат підтримки з учасницями і тренером</li>
-            <li style="margin-bottom: 10px;" class="crossed-text">Воркбук (календар курсу, відслідковування результатів,
-              трекер тренувань, відслідковування відчуттів і рівня підготовки)
-            </li>
-            <li style="margin-bottom: 10px;" class="crossed-text">Перевірка воркбука тренером</li>
-          </ul>
-
-
-          <div
-              class="block-buttons is-content-justification-left is-layout-flex container-core-buttons-is-layout-3 block-buttons-is-layout-flex">
-            <div class="block-button has-custom-width block-button__width-100 is-style-fill responsive-button">
-              <button
-                  class="block-button__link has-background-color"
-                  onclick="openForm('Бенефітик')" style="background-color: #002409 !important; font-size: 120%">
+                  onclick="openForm()" style="background-color: #002409 !important; font-size: 120%">
                 Купити зараз
               </button>
             </div>

@@ -8,6 +8,4 @@ from .models import OrderTIH
 def update_cache(sender, instance, **kwargs):
 
     base_key = "base_count"
-    extended_key = "extended_count"
-    cache.set(base_key, OrderTIH.objects.filter(tier="Бенефітик").count())
-    cache.set(extended_key, OrderTIH.objects.filter(tier="Бенефітище").count())
+    cache.set(base_key, OrderTIH.objects.count())

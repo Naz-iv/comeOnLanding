@@ -30,15 +30,12 @@
 <div id="home" class="site-blocks">
   {% block header %}
     {% include "tih/includes/header.html" %}
-    {% if  expiry_date %}
-      {% include "tih/includes/offer.html" %}
-    {% endif %}
   {% endblock %}
 
   <main class="block-group is-layout-flow container-core-group-is-layout-47 block-group-is-layout-flow"
         id="-skip-link--target">
     <div class="block-group alignfull is-layout-flow block-group-is-layout-flow"
-         style="margin-top:0;margin-bottom:0; height: 92%">
+         style="margin-top:0;margin-bottom:0; height: 67%">
       <div class="block-cover alignfull is-light"
            style="padding-top:var(--preset--spacing--50);padding-right:var(--preset--spacing--50);padding-bottom:var(--preset--spacing--50);padding-left:var(--preset--spacing--50);min-height:730px">
         <span aria-hidden="true" class="block-cover__background has-background-dim-0 has-background-dim"></span><img
@@ -57,7 +54,7 @@
 
                 <p class="margin-top-half has-text-color"
                    style="color:#151515;font-size:clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.341), 25px);line-height:1.65; padding: 0 5px 10px 0">
-                  Більше, ніж онлайн курс тренувань.<br>Це філософія життя!</p>
+                  Тренування, що викликають залежність!</p>
 
 
                 <div class="block-buttons is-layout-flex block-buttons-is-layout-flex">
@@ -70,7 +67,10 @@
               </div>
             </div>
           </div>
+        <!-- Add the fixed button at the bottom left corner -->
+        <button class="fixed-button" onclick="openForm()">Купити</button>
         </div>
+        
       </div>
     </div>
 
@@ -133,9 +133,8 @@
     }
 </script>
 <script>
-    function openForm(tier) {
+    function openForm() {
         document.getElementById("myModal").style.display = "flex";
-        document.getElementById("id_tier").value = tier;
     }
 
     function closeForm() {
@@ -169,7 +168,6 @@
 </script>
 
 <script>
-    {% if expiry_date %}
         // Set the countdown date (replace with your desired end date)
         var countdownDate = new Date("{{ expiry_date }}");
 
@@ -210,7 +208,6 @@
             }
             return str;
         }
-    {% endif %}
 </script>
 </body>
 </html>

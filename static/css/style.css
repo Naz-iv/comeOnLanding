@@ -1536,7 +1536,6 @@ h6 {
 }
 
 .element-button:active, .block-button__link:active {
-    background-color: var(--preset--color--foreground);
     color: var(--preset--color--background);
 }
 
@@ -2492,14 +2491,15 @@ h6 {
 }
 
 #limited-time-offer {
-    display: flex;
-    grid-template-columns: repeat(3, 1fr); /* Create three equal-width columns */
-    gap: 15px; /* Add some gap between columns */
-    align-items: center; /* Center items vertically */
-    justify-content: center; /* Center items horizontally */
-    background-color: #f8f8f8;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: white; /* Adjust background color as needed */
+    z-index: 1000; /* Adjust the z-index as needed to ensure it stays on top */
+    text-align: center;
     padding: 10px;
-}
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: Adds a shadow for better visibility */
+  }
 
 /*.countdown-timer {*/
 /*    font-size: 18px;*/
@@ -2849,4 +2849,21 @@ h6 {
 
 .price-plan {
     width: 30vw
+}
+
+.fixed-button {
+    position: fixed;
+    top: 50px; /* Adjust this value as needed */
+    right: 15px;  /* Adjust this value as needed */
+    background-color: rgb(194, 208, 118); /* Green */
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 9999; /* Ensure it stays on top */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: Adds a shadow for better visibility */
 }

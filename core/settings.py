@@ -119,6 +119,8 @@ BASE_TIER_START = os.getenv("BASE_TIER_START", 249)
 EXTENDED_TIER_START = os.getenv("EXTENDED_TIER_START", 349)
 BASE_TIER_END = os.getenv("BASE_TIER_END", 349)
 EXTENDED_TIER_END = os.getenv("EXTENDED_TIER_END", 499)
+TIH_START=os.getenv("TIH_START", 690)
+TIH_END=os.getenv("TIH_END", 890)
 START_AMOUNT = os.getenv("START_AMOUNT", 10)
 
 
@@ -136,6 +138,8 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "STRONG_PASSWORD")
 ACCESS_URL_BASE = os.getenv("ACCESS_URL_BASE", "https://www.youtube.com/")
 ACCESS_URL_EXTENDED = os.getenv("ACCESS_URL_EXTENDED", "https://www.youtube.com/")
 TELEGRAM_URL = os.getenv("TELEGRAM_CHAT_URL", "https://www.youtube.com/")
+TELEGRAM_TIH = os.getenv("TELEGRAM_TIH", "https://www.youtube.com/")
+TIH_URL = os.getenv("TIH_URL", "https://www.youtube.com/")
 
 # Cache configurations
 CACHES = {

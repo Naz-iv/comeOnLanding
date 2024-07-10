@@ -27,18 +27,14 @@ from .forms import OrderForm
 
 
 def index(request: HttpRequest, **kwargs) -> HttpResponse:
-    sold_base = cache.get("base_count", OrderTIH.objects.filter(tier="Бенефітик").count())
-    sold_extended = cache.get("extended_count", OrderTIH.objects.filter(tier="Бенефітище").count())
-
+    sold_base = cache.get("base_count", OrderTIH.objects.count())
+    
     context = {
         "form": OrderForm(),
-        "base_price_start": settings.BASE_TIER_START,
-        "extended_price_start": settings.EXTENDED_TIER_START,
-        "base_price_end": settings.BASE_TIER_END,
-        "extended_price_end": settings.EXTENDED_TIER_END,
+        "price_start": settings.TIH_START,
+        "price_end": settings.TIH_END,
         "start_amount": int(settings.START_AMOUNT),
         "sold_base": sold_base,
-        "sold_extended": sold_extended,
     }
     paid = request.GET.get("paid")
     failure = request.GET.get("failure")
@@ -63,7 +59,7 @@ def pay(order: OrderTIH) -> str | None:
         "action": "pay",
         "amount": f"{order.price}",
         "currency": "UAH",
-        "description": f"Оплата за курс Танцюй і Худни: {order.tier}",
+        "description": f"Оплата за курс Танцюй і Худни",
         "paytypes": "apay privat24",
         "order_id": f"{order.order_id}",
         "version": "3",
@@ -87,14 +83,14 @@ def pay(order: OrderTIH) -> str | None:
 
 
 def send_email_access(order: OrderTIH) -> None:
-    access_url = settings.ACCESS_URL_EXTENDED if order.tier == "Бенефітище" else settings.ACCESS_URL_BASE
+    access_url = settings.TIH_URL
     html_message = render_to_string(
         "tih/communication/email.html",
-        {"recipient_name": order.fullname, "url": access_url, "tier": order.tier, "telegram_url": settings.TELEGRAM_URL}
+        {"recipient_name": order.fullname, "url": access_url, "telegram_url": settings.TELEGRAM_TIH}
     )
 
     send_mail(
-        subject=f"Підписка Танцюй і Худни {order.tier}",
+        subject=f"Підписка Танцюй і Худни",
         message="",
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[order.email],
@@ -110,23 +106,15 @@ class PayView(TemplateView):
     def post(self, request, *args, **kwargs):
         form = OrderForm(request.POST)
         if form.is_valid():
-            tier = form.cleaned_data.get("tier", "Бенефітик")
+            
+            sold_base = cache.get("base_count", OrderTIH.objects.count())
+            price = settings.TIH_START
 
-            sold_base = cache.get("base_count", OrderTIH.objects.filter(tier="Бенефітик").count())
-            sold_extended = cache.get("extended_count", OrderTIH.objects.filter(tier="Бенефітище").count())
-            price = settings.BASE_TIER_START
-
-            if tier == "Бенефітик":
-                if sold_base < int(settings.START_AMOUNT):
-                    price = settings.BASE_TIER_START
-                else:
-                    price = settings.BASE_TIER_END
-            elif tier == "Бенефітище":
-                if sold_extended < int(settings.START_AMOUNT):
-                    price = settings.EXTENDED_TIER_START
-                else:
-                    price = settings.EXTENDED_TIER_END
-
+            if sold_base < int(settings.START_AMOUNT):
+                price = settings.TIH_START
+            else:
+                price = settings.TIH_END
+ 
             order = OrderTIH.objects.create(
                 price=price, order_id=uuid4(), **form.cleaned_data
             )
