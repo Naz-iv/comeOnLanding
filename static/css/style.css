@@ -432,7 +432,9 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"], p.has-text-align-right
     min-width: 0;
     overflow-wrap: break-word;
     overflow-x: hidden;
-    word-break: break-word
+    word-break: break-word;
+    border-radius: 5%;
+    padding: 0 10px;
 }
 
 .block-column.is-vertically-aligned-top {
@@ -2810,7 +2812,7 @@ h6 {
 
 @media only screen and (max-width: 768px) {
     .me-block {
-        flex-direction: column;!important;
+        flex-direction: column!important;
 
     }
 }
@@ -2853,17 +2855,18 @@ h6 {
 
 .fixed-button {
     position: fixed;
-    top: 50px; /* Adjust this value as needed */
+    bottom: 25px; /* Adjust this value as needed */
     right: 15px;  /* Adjust this value as needed */
-    background-color: rgb(194, 208, 118); /* Green */
-    color: rgb(0, 0, 0);
+    background-color: rgb(229, 105, 105); /* Green */
+    border-radius: 15%;
+    color: rgb(255, 255, 255);
     border: none;
     padding: 5px 10px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    display: flex;
+    font-size: 20px;
     cursor: pointer;
-    z-index: 9999; /* Ensure it stays on top */
+    z-index: 9999 /* Ensure it stays on top */!important;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: Adds a shadow for better visibility */
 }
